@@ -63,6 +63,26 @@ namespace NumbersSolveDE.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Основная_задача_2 {
+            get {
+                object obj = ResourceManager.GetObject("Основная-задача-2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Основная_задача_21 {
+            get {
+                object obj = ResourceManager.GetObject("Основная-задача-21", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap ТестоваяЗадача {
             get {
                 object obj = ResourceManager.GetObject("ТестоваяЗадача", resourceCulture);

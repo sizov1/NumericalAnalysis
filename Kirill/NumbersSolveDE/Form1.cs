@@ -123,6 +123,8 @@ namespace NumbersSolveDE
             List<List<double>> table = new List<List<double>>();
             List<double> lteList = new List<double>();
             List<double> gteList = new List<double>();
+            List<double> hList = new List<double>();
+            List<double> xList = new List<double>();
 
             for (x = 0.0; x < xmax && i < N;)
             {
@@ -133,6 +135,8 @@ namespace NumbersSolveDE
                 double S = ((v2 - v) / (twon(4) - 1.0));
                 double lte = S * twon(4);
                 lteList.Add(lte);
+                hList.Add(h);
+                xList.Add(x);
 
                 if (Math.Abs(S) > eps) {
                     x -= h;
@@ -165,8 +169,10 @@ namespace NumbersSolveDE
 
             InitTable(ref table, i / 5, 10);
 
-            double maxGte = gteList.Max();
-            calcInfo.InitData(i, xmax - x, lteList.Max(), 0, 0, h, 0, h, 0, maxGte, table[gteList.IndexOf(maxGte)][0]);
+            double maxGte = gteList.Max(), hmax = hList.Max(), hmin = hList.Min();
+            double xhmax = xList[hList.IndexOf(hmax)], xhmin = xList[hList.IndexOf(hmin)];
+
+            calcInfo.InitData(i, xmax - x, lteList.Max(), C1, C2, hmax, xhmax, hmin, xhmin, maxGte, table[gteList.IndexOf(maxGte)][0]);
         }
 
         void Draw(ref ZedGraph.PointPairList f_list, string name, Color clr, double xmax = 1.0)  // построение графиков

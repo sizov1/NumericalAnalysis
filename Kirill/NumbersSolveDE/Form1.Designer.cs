@@ -46,14 +46,17 @@
             this.sxmax = new System.Windows.Forms.TextBox();
             this.sh = new System.Windows.Forms.TextBox();
             this.sN = new System.Windows.Forms.TextBox();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.zedGraph = new ZedGraph.ZedGraphControl();
             this.button2 = new System.Windows.Forms.Button();
             this.helpProvider1 = new System.Windows.Forms.HelpProvider();
             this.radioButton1 = new System.Windows.Forms.RadioButton();
             this.radioButton2 = new System.Windows.Forms.RadioButton();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.button6 = new System.Windows.Forms.Button();
+            this.button5 = new System.Windows.Forms.Button();
+            this.button4 = new System.Windows.Forms.Button();
+            this.radioButton4 = new System.Windows.Forms.RadioButton();
+            this.radioButton3 = new System.Windows.Forms.RadioButton();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.button3 = new System.Windows.Forms.Button();
@@ -71,11 +74,17 @@
             this.Column8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.zedGraphControl1 = new ZedGraph.ZedGraphControl();
+            this.zedGraph = new ZedGraph.ZedGraphControl();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.tabControl1.SuspendLayout();
+            this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.tabPage3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // button1
@@ -156,26 +165,6 @@
             this.sN.Size = new System.Drawing.Size(100, 20);
             this.sN.TabIndex = 8;
             // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Image = global::NumbersSolveDE.Properties.Resources.ТестоваяЗадача;
-            this.pictureBox1.Location = new System.Drawing.Point(682, 6);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(238, 76);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox1.TabIndex = 9;
-            this.pictureBox1.TabStop = false;
-            // 
-            // zedGraph
-            // 
-            this.zedGraph.AutoScroll = true;
-            this.zedGraph.IsShowPointValues = false;
-            this.zedGraph.Location = new System.Drawing.Point(189, 88);
-            this.zedGraph.Name = "zedGraph";
-            this.zedGraph.PointValueFormat = "G";
-            this.zedGraph.Size = new System.Drawing.Size(731, 364);
-            this.zedGraph.TabIndex = 0;
-            // 
             // button2
             // 
             this.button2.Location = new System.Drawing.Point(149, 6);
@@ -214,27 +203,83 @@
             this.tabControl1.Controls.Add(this.tabPage4);
             this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Controls.Add(this.tabPage3);
-            this.tabControl1.Location = new System.Drawing.Point(4, 3);
+            this.tabControl1.Location = new System.Drawing.Point(1, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(934, 484);
+            this.tabControl1.Size = new System.Drawing.Size(938, 527);
             this.tabControl1.TabIndex = 13;
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.pictureBox2);
+            this.tabPage1.Controls.Add(this.button6);
+            this.tabPage1.Controls.Add(this.button5);
+            this.tabPage1.Controls.Add(this.button4);
+            this.tabPage1.Controls.Add(this.zedGraphControl1);
+            this.tabPage1.Controls.Add(this.radioButton4);
+            this.tabPage1.Controls.Add(this.radioButton3);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(926, 458);
+            this.tabPage1.Size = new System.Drawing.Size(930, 501);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Основаная задача 2";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // button6
+            // 
+            this.button6.Location = new System.Drawing.Point(6, 44);
+            this.button6.Name = "button6";
+            this.button6.Size = new System.Drawing.Size(137, 32);
+            this.button6.TabIndex = 18;
+            this.button6.Text = "Справка";
+            this.button6.UseVisualStyleBackColor = true;
+            // 
+            // button5
+            // 
+            this.button5.Location = new System.Drawing.Point(6, 6);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(137, 32);
+            this.button5.TabIndex = 17;
+            this.button5.Text = "Вычислить";
+            this.button5.UseVisualStyleBackColor = true;
+            // 
+            // button4
+            // 
+            this.button4.Location = new System.Drawing.Point(149, 6);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(137, 70);
+            this.button4.TabIndex = 16;
+            this.button4.Text = "Информация о проведенном вычислении";
+            this.button4.UseVisualStyleBackColor = true;
+            // 
+            // radioButton4
+            // 
+            this.radioButton4.AutoSize = true;
+            this.radioButton4.Location = new System.Drawing.Point(507, 59);
+            this.radioButton4.Name = "radioButton4";
+            this.radioButton4.Size = new System.Drawing.Size(159, 17);
+            this.radioButton4.TabIndex = 16;
+            this.radioButton4.Text = "С контролем погрешности";
+            this.radioButton4.UseVisualStyleBackColor = true;
+            // 
+            // radioButton3
+            // 
+            this.radioButton3.AutoSize = true;
+            this.radioButton3.Checked = true;
+            this.radioButton3.Location = new System.Drawing.Point(507, 33);
+            this.radioButton3.Name = "radioButton3";
+            this.radioButton3.Size = new System.Drawing.Size(163, 17);
+            this.radioButton3.TabIndex = 16;
+            this.radioButton3.TabStop = true;
+            this.radioButton3.Text = "Без контроля погрешности";
+            this.radioButton3.UseVisualStyleBackColor = true;
             // 
             // tabPage4
             // 
             this.tabPage4.Location = new System.Drawing.Point(4, 22);
             this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Size = new System.Drawing.Size(926, 458);
+            this.tabPage4.Size = new System.Drawing.Size(930, 501);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Основная задача 1";
             this.tabPage4.UseVisualStyleBackColor = true;
@@ -247,7 +292,6 @@
             this.tabPage2.Controls.Add(this.zedGraph);
             this.tabPage2.Controls.Add(this.radioButton1);
             this.tabPage2.Controls.Add(this.radioButton2);
-            this.tabPage2.Controls.Add(this.pictureBox1);
             this.tabPage2.Controls.Add(this.button1);
             this.tabPage2.Controls.Add(this.label3);
             this.tabPage2.Controls.Add(this.sN);
@@ -258,10 +302,11 @@
             this.tabPage2.Controls.Add(this.sxmax);
             this.tabPage2.Controls.Add(this.su0);
             this.tabPage2.Controls.Add(this.label4);
+            this.tabPage2.Controls.Add(this.pictureBox1);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(926, 458);
+            this.tabPage2.Size = new System.Drawing.Size(930, 501);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Тестовая задача";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -298,7 +343,7 @@
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(926, 458);
+            this.tabPage3.Size = new System.Drawing.Size(930, 501);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Таблица";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -372,6 +417,46 @@
             this.Column10.HeaderText = "|ui - vi|";
             this.Column10.Name = "Column10";
             // 
+            // pictureBox2
+            // 
+            this.pictureBox2.Image = global::NumbersSolveDE.Properties.Resources.Основная_задача_21;
+            this.pictureBox2.Location = new System.Drawing.Point(682, 7);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(238, 75);
+            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox2.TabIndex = 19;
+            this.pictureBox2.TabStop = false;
+            // 
+            // zedGraphControl1
+            // 
+            this.zedGraphControl1.AutoScroll = true;
+            this.zedGraphControl1.IsShowPointValues = false;
+            this.zedGraphControl1.Location = new System.Drawing.Point(189, 88);
+            this.zedGraphControl1.Name = "zedGraphControl1";
+            this.zedGraphControl1.PointValueFormat = "G";
+            this.zedGraphControl1.Size = new System.Drawing.Size(731, 407);
+            this.zedGraphControl1.TabIndex = 14;
+            // 
+            // zedGraph
+            // 
+            this.zedGraph.AutoScroll = true;
+            this.zedGraph.IsShowPointValues = false;
+            this.zedGraph.Location = new System.Drawing.Point(189, 88);
+            this.zedGraph.Name = "zedGraph";
+            this.zedGraph.PointValueFormat = "G";
+            this.zedGraph.Size = new System.Drawing.Size(731, 407);
+            this.zedGraph.TabIndex = 0;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = global::NumbersSolveDE.Properties.Resources.ТестоваяЗадача;
+            this.pictureBox1.Location = new System.Drawing.Point(682, 6);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(238, 76);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.TabIndex = 9;
+            this.pictureBox1.TabStop = false;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -380,12 +465,15 @@
             this.Controls.Add(this.tabControl1);
             this.Name = "Form1";
             this.Text = "Численное решение задачи Коши";
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.tabControl1.ResumeLayout(false);
+            this.tabPage1.ResumeLayout(false);
+            this.tabPage1.PerformLayout();
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
             this.tabPage3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -426,6 +514,13 @@
         private TextBox seps;
         private Label label5;
         private Button button3;
+        private ZedGraphControl zedGraphControl1;
+        private Button button6;
+        private Button button5;
+        private Button button4;
+        private RadioButton radioButton4;
+        private RadioButton radioButton3;
+        private PictureBox pictureBox2;
     }
 }
 
