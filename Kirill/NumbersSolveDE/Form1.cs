@@ -14,7 +14,9 @@ namespace NumbersSolveDE
     {
 
         const double eqdiff = 1e-15;
-        
+        const int number_rows = 1000; // количество строк в таблице
+        OutputData calcInfo = new OutputData();
+
         public Form1()
         {
             InitializeComponent();
@@ -23,6 +25,7 @@ namespace NumbersSolveDE
         private void Button2_Click(object sender, EventArgs e)
         {
             Form2 q = new Form2();
+            q.InitInfo(calcInfo);
             q.Show();
         }
 
@@ -35,7 +38,7 @@ namespace NumbersSolveDE
             if (radioButton1.Checked) {
                 CalcWithoutControl(u0, xmax, N, h);
             } else {
-              //  CalcWithControl(u0, xmax, N, h);
+                CalcWithControl(u0, xmax, N, h);
             }
         }
 
@@ -57,57 +60,139 @@ namespace NumbersSolveDE
             ZedGraph.PointPairList f1_list = new ZedGraph.PointPairList();
             ZedGraph.PointPairList f2_list = new ZedGraph.PointPairList();
 
-            dataGridView1.Rows.Clear();
             // добавляем начальную точку на график
             f1_list.Add(0, u0);
 
-            int i = 0;
+            
             double v = u0;
             List<List<double>> table = new List<List<double>>();
+            List<double> lteList = new List<double>();
+            List<double> gteList = new List<double>();
 
-            for (double x = 0.0; x < xmax && i < N; x += h)
+            int i = 0; double x = 0.0;
+            for (x = 0.0; x < xmax && i < N;)
             {
-
                 // вычисляем следующие значение численной траектории
                 v = get_next_value(x, v, h);
 
                 // вычисляем значение численной траектории с помощью двойного счета с половинным шагом
                 double v2 = get_next_value(x, v, h / 2.0);
-                v2 = get_next_value(x + h / 2.0, v2, h / 2.0);
+                v2 = get_next_value(x + (h / 2.0), v2, h / 2.0);
+                x += h;
 
                 // считаем ОЛП
-                double sp = twon(4);
-                double lte = ((v2 - v) / (sp - 1.0)) * sp;
+                double twop = twon(4);
+                double lte = ((v2 - v) / (twop - 1.0)) * twop;
+                lteList.Add(lte);
 
                 // вычисляем значение точного решения
-                double u = u0 * Math.Exp( (-5.0/2.0) * (x + h) );
+                double u = u0 * Math.Exp((-5.0 / 2.0) * x);
+                gteList.Add(Math.Abs(u - v));
 
                 // добавляем точки точного и численного решения на график 
-                f1_list.Add(x + h, v);
-                f2_list.Add(x + h, u);
+                f1_list.Add(x, v);
+                f2_list.Add(x, u);
 
-                List<double> tablerow = new List<double>(10);
-                tablerow.Add(x + h); tablerow.Add(v); tablerow.Add(v2);
-                tablerow.Add(v - v2); tablerow.Add(lte); tablerow.Add(h);
-                tablerow.Add(0); tablerow.Add(0); tablerow.Add(u);
-                tablerow.Add(Math.Abs(u - v));
+                List<double> tablerow = new List<double> { x, v, v2, v - v2, lte, h, 0, 0, u, Math.Abs(u - v) };
                 table.Add(tablerow);
 
                 i++;
             }
 
-            ZedGraph.GraphPane panel = zedGraph.GraphPane;
-            panel.CurveList.Clear();
-            ZedGraph.LineItem Curve1 = panel.AddCurve("num", f1_list, Color.FromName("Red"), ZedGraph.SymbolType.None);
-            ZedGraph.LineItem Curve2 = panel.AddCurve("exact", f2_list, Color.FromName("Blue"), ZedGraph.SymbolType.None);
+            // строим графики численного и точного решения 
+            zedGraph.GraphPane.CurveList.Clear();
+            Draw(ref f1_list, "num", Color.FromName("Blue"), xmax);
+            Draw(ref f2_list, "exact", Color.FromName("Red"), xmax);
 
+            // заполняем таблицу 
+            InitTable(ref table, i / 5, 10);
+
+            double maxGte = gteList.Max();
+            calcInfo.InitData(i, xmax - x, lteList.Max(), 0, 0, h, 0, h, 0, maxGte, table[gteList.IndexOf(maxGte)][0]);
+        }
+
+        void CalcWithControl(double u0, double xmax, int N, double h)
+        {
+            ZedGraph.PointPairList f1_list = new ZedGraph.PointPairList();
+            ZedGraph.PointPairList f2_list = new ZedGraph.PointPairList();
+
+            f1_list.Add(0, u0);
+
+            int i = 0, C1 = 0, C2 = 0;
+            double x, v = u0, vpre = v, eps = System.Convert.ToDouble(seps.Text);
+            List<List<double>> table = new List<List<double>>();
+            List<double> lteList = new List<double>();
+            List<double> gteList = new List<double>();
+
+            for (x = 0.0; x < xmax && i < N;)
+            {
+                v = get_next_value(x, vpre, h);
+                double v2 = get_next_value(x, v, h / 2.0);
+                v2 = get_next_value(x + (h / 2.0), v2, h / 2.0);
+                x += h;
+                double S = ((v2 - v) / (twon(4) - 1.0));
+                double lte = S * twon(4);
+                lteList.Add(lte);
+
+                if (Math.Abs(S) > eps) {
+                    x -= h;
+                    h /= 2;
+                    C1++;
+                    continue;
+                } else if (Math.Abs(S) < (eps / twon(5))) {
+                    vpre = v;
+                    h *= 2;
+                    C2++;
+                } else {
+                    vpre = v;
+                }
+
+                double u = u0 * Math.Exp((-5.0 / 2.0) * x);
+                gteList.Add(Math.Abs(u - v));
+
+                f1_list.Add(x, v);
+                f2_list.Add(x, u);
+
+                List<double> tablerow = new List<double>(10){ x, v, v2, v - v2, lte, h, C1, C2, u, Math.Abs(u - v)};
+                table.Add(tablerow);
+
+                i++;
+            }
+
+            zedGraph.GraphPane.CurveList.Clear();
+            Draw(ref f1_list, "num", Color.FromName("Blue"), xmax);
+            Draw(ref f2_list, "exact", Color.FromName("Red"), xmax);
+
+            InitTable(ref table, i / 5, 10);
+
+            double maxGte = gteList.Max();
+            calcInfo.InitData(i, xmax - x, lteList.Max(), 0, 0, h, 0, h, 0, maxGte, table[gteList.IndexOf(maxGte)][0]);
+        }
+
+        void Draw(ref ZedGraph.PointPairList f_list, string name, Color clr, double xmax = 1.0)  // построение графиков
+        {
+            ZedGraph.GraphPane panel = zedGraph.GraphPane;
+            ZedGraph.LineItem Curve = panel.AddCurve(name, f_list, clr, ZedGraph.SymbolType.None);
             panel.XAxis.Min = -0.1;
             panel.XAxis.Max = xmax + 0.1;
             panel.YAxis.Min = -1;
-
             zedGraph.AxisChange();
             zedGraph.Invalidate();
         }
+
+        void InitTable(ref List<List<double>> data, int number_rows, int number_columns)  // функция заполняет таблицу 
+        {
+            dataGridView1.Rows.Clear();
+            for (int j = 0; j < number_rows; j++)
+            {
+                dataGridView1.Rows.Add();
+                for (int k = 0; k < number_columns; k++)
+                {
+                    dataGridView1.Rows[j].Cells[k].Value = data[j][k];
+                }
+            }
+        }
+
     }
 
     

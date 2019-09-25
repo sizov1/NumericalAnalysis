@@ -11,3 +11,16 @@ C:\Users\sizov\source\repos\NumbersSolveDE\NumbersSolveDE\obj\Debug\NumbersSolve
 C:\Users\sizov\source\repos\NumbersSolveDE\NumbersSolveDE\bin\Debug\ZedGraph.dll
 C:\Users\sizov\source\repos\NumbersSolveDE\NumbersSolveDE\obj\Debug\NumbersSolveDE.csproj.CopyComplete
 C:\Users\sizov\source\repos\NumbersSolveDE\NumbersSolveDE\obj\Debug\NumbersSolveDE.Form2.resources
+C:\Users\sizov\Desktop\Новая папка\NumbersSolveDE\bin\Debug\NumbersSolveDE.exe.config
+C:\Users\sizov\Desktop\Новая папка\NumbersSolveDE\bin\Debug\NumbersSolveDE.exe
+C:\Users\sizov\Desktop\Новая папка\NumbersSolveDE\bin\Debug\NumbersSolveDE.pdb
+C:\Users\sizov\Desktop\Новая папка\NumbersSolveDE\bin\Debug\ZedGraph.dll
+C:\Users\sizov\Desktop\Новая папка\NumbersSolveDE\obj\Debug\NumbersSolveDE.csprojAssemblyReference.cache
+C:\Users\sizov\Desktop\Новая папка\NumbersSolveDE\obj\Debug\NumbersSolveDE.Form1.resources
+C:\Users\sizov\Desktop\Новая папка\NumbersSolveDE\obj\Debug\NumbersSolveDE.Form2.resources
+C:\Users\sizov\Desktop\Новая папка\NumbersSolveDE\obj\Debug\NumbersSolveDE.Properties.Resources.resources
+C:\Users\sizov\Desktop\Новая папка\NumbersSolveDE\obj\Debug\NumbersSolveDE.csproj.GenerateResource.cache
+C:\Users\sizov\Desktop\Новая папка\NumbersSolveDE\obj\Debug\NumbersSolveDE.csproj.CoreCompileInputs.cache
+C:\Users\sizov\Desktop\Новая папка\NumbersSolveDE\obj\Debug\NumbersSolveDE.csproj.CopyComplete
+C:\Users\sizov\Desktop\Новая папка\NumbersSolveDE\obj\Debug\NumbersSolveDE.exe
+C:\Users\sizov\Desktop\Новая папка\NumbersSolveDE\obj\Debug\NumbersSolveDE.pdb
