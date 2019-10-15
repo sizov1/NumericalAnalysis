@@ -112,5 +112,7 @@ int main()
 		vExact = GetExactSolve(x);
 		InsertRow(x, h, vNum[0], vNum[1], vExact[0], vExact[1]);
 	}
+	fout.close();
+	system("C:\\Users\\sizov\\source\\repos\\RigidSystem\\RigidSystem\\results.csv");
 }
 
