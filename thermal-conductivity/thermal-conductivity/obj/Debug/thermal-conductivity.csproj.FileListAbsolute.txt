@@ -1,0 +1,14 @@
+C:\Users\sizov\source\repos\thermal-conductivity\thermal-conductivity\bin\Debug\thermal-conductivity.exe.config
+C:\Users\sizov\source\repos\thermal-conductivity\thermal-conductivity\bin\Debug\thermal-conductivity.exe
+C:\Users\sizov\source\repos\thermal-conductivity\thermal-conductivity\bin\Debug\thermal-conductivity.pdb
+C:\Users\sizov\source\repos\thermal-conductivity\thermal-conductivity\obj\Debug\thermal-conductivity.csprojAssemblyReference.cache
+C:\Users\sizov\source\repos\thermal-conductivity\thermal-conductivity\obj\Debug\thermal_conductivity.Properties.Resources.resources
+C:\Users\sizov\source\repos\thermal-conductivity\thermal-conductivity\obj\Debug\thermal-conductivity.csproj.GenerateResource.cache
+C:\Users\sizov\source\repos\thermal-conductivity\thermal-conductivity\obj\Debug\thermal-conductivity.csproj.CoreCompileInputs.cache
+C:\Users\sizov\source\repos\thermal-conductivity\thermal-conductivity\obj\Debug\thermal-conductivity.exe
+C:\Users\sizov\source\repos\thermal-conductivity\thermal-conductivity\obj\Debug\thermal-conductivity.pdb
+C:\Users\sizov\source\repos\thermal-conductivity\thermal-conductivity\obj\Debug\thermal_conductivity.Form2.resources
+C:\Users\sizov\source\repos\thermal-conductivity\thermal-conductivity\obj\Debug\thermal_conductivity.Form1.resources
+C:\Users\sizov\source\repos\thermal-conductivity\thermal-conductivity\bin\Debug\ZedGraph.dll
+C:\Users\sizov\source\repos\thermal-conductivity\thermal-conductivity\obj\Debug\thermal-conductivity.csproj.CopyComplete
+C:\Users\sizov\source\repos\thermal-conductivity\thermal-conductivity\obj\Debug\thermal_conductivity.SerialEperiment.resources
