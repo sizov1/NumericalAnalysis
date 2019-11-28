@@ -84,6 +84,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <EmbeddedResource Include="SerialEperiment.resx">
       <DependentUpon>SerialEperiment.cs</DependentUpon>
@@ -100,6 +101,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\qHQ1v11SVF0.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\imBY1mWjvlE.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

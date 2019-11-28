@@ -50,8 +50,9 @@
             // 
             // pictureBox1
             // 
+            this.pictureBox1.Image = global::thermal_conductivity.Properties.Resources.qHQ1v11SVF0;
             this.pictureBox1.Location = new System.Drawing.Point(30, 36);
-            this.pictureBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(323, 166);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -71,8 +72,9 @@
             // 
             // pictureBox2
             // 
+            this.pictureBox2.Image = global::thermal_conductivity.Properties.Resources.imBY1mWjvlE;
             this.pictureBox2.Location = new System.Drawing.Point(30, 257);
-            this.pictureBox2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.pictureBox2.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.Size = new System.Drawing.Size(323, 176);
             this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -108,7 +110,7 @@
             this.Controls.Add(this.label1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.HelpButton = true;
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "Form2";
             this.ShowIcon = false;
             this.Text = "Основная и тестовая задачи";

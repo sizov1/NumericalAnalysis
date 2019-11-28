@@ -42,7 +42,6 @@
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.label_xepstest = new System.Windows.Forms.Label();
@@ -67,6 +66,8 @@
             this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.panel1.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -188,12 +189,12 @@
             // 
             this.label4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label4.Location = new System.Drawing.Point(4, 95);
+            this.label4.Location = new System.Drawing.Point(3, 92);
             this.label4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(171, 16);
+            this.label4.Size = new System.Drawing.Size(231, 18);
             this.label4.TabIndex = 10;
-            this.label4.Text = "Тестовая задача решена с";
+            this.label4.Text = "Тестовая задача решена с точностью:";
             // 
             // label_epstest
             // 
@@ -238,17 +239,6 @@
             this.label8.TabIndex = 14;
             this.label8.Text = "разбиений по x n = ";
             // 
-            // label9
-            // 
-            this.label9.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label9.Location = new System.Drawing.Point(5, 114);
-            this.label9.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(65, 16);
-            this.label9.TabIndex = 15;
-            this.label9.Text = "точностью:";
-            // 
             // label10
             // 
             this.label10.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -283,6 +273,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.label_xepstest);
             this.groupBox1.Controls.Add(this.label7);
@@ -291,7 +282,6 @@
             this.groupBox1.Controls.Add(this.label10);
             this.groupBox1.Controls.Add(this.label_ntest);
             this.groupBox1.Controls.Add(this.label6);
-            this.groupBox1.Controls.Add(this.label9);
             this.groupBox1.Controls.Add(this.label_epstest);
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Location = new System.Drawing.Point(8, 194);
@@ -304,6 +294,7 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.label5);
             this.groupBox2.Controls.Add(this.label13);
             this.groupBox2.Controls.Add(this.label_xepsmain);
             this.groupBox2.Controls.Add(this.label15);
@@ -424,10 +415,10 @@
             // 
             this.label_epsmain.BackColor = System.Drawing.SystemColors.Control;
             this.label_epsmain.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label_epsmain.Location = new System.Drawing.Point(7, 154);
+            this.label_epsmain.Location = new System.Drawing.Point(82, 154);
             this.label_epsmain.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label_epsmain.Name = "label_epsmain";
-            this.label_epsmain.Size = new System.Drawing.Size(208, 20);
+            this.label_epsmain.Size = new System.Drawing.Size(152, 20);
             this.label_epsmain.TabIndex = 11;
             // 
             // label23
@@ -500,6 +491,28 @@
             this.Column5.HeaderText = "u(xi) - v(xi)";
             this.Column5.Name = "Column5";
             // 
+            // label3
+            // 
+            this.label3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label3.Location = new System.Drawing.Point(5, 111);
+            this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(65, 16);
+            this.label3.TabIndex = 19;
+            this.label3.Text = "max|ui - vi| = ";
+            // 
+            // label5
+            // 
+            this.label5.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label5.Location = new System.Drawing.Point(3, 154);
+            this.label5.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(75, 20);
+            this.label5.TabIndex = 20;
+            this.label5.Text = "max|v2i - vi| = ";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -539,7 +552,6 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label_xepstest;
@@ -567,6 +579,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column5;
         private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label5;
     }
 }
 

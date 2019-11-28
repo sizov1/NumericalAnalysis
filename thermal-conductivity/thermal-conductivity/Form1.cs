@@ -170,17 +170,19 @@ namespace thermal_conductivity
                 double xi = grid[i], xi1 = grid[i + 1];
                 if (xi1 < ksi)
                 {
-                    double integ = -Math.Log(1 / Math.Tan(xi1 / 2.0)) + Math.Log(1 / Math.Tan(xi / 2.0));  // значение интеграла
-                    ai.Add( h * Math.Sqrt(2) / integ );
+                    double integ = Math.Log(Math.Sin((xi1 + 1.1) / 2.0)) - Math.Log(Math.Cos((xi1 + 1.1) / 2.0))
+                                   - Math.Log(Math.Sin((xi + 1.1) / 2.0)) + Math.Log(Math.Cos((xi + 1.1) / 2.0));  // значение интеграла
+                    ai.Add(h * Math.Sqrt(2) / integ);
                 }
                 else if (xi1 > ksi && xi > ksi)
                 {
                     double integ = Math.Tan(xi1) - Math.Tan(xi);
-                    ai.Add( h / integ );
+                    ai.Add(h / integ);
                 }
                 else if (xi1 > ksi && xi < ksi)
                 {
-                    double integ1 = (-Math.Log(1 / Math.Tan(ksi / 2.0)) + Math.Log(1 / Math.Tan(xi / 2.0))) / Math.Sqrt(2);
+                    double integ1 = (Math.Log(Math.Sin((ksi + 1.1) / 2.0)) - Math.Log(Math.Cos((ksi + 1.1) / 2.0))
+                                   - Math.Log(Math.Sin((xi + 1.1) / 2.0)) + Math.Log(Math.Cos((xi + 1.1) / 2.0))) / Math.Sqrt(2);
                     double integ2 = Math.Tan(xi1) - Math.Tan(ksi);
                     ai.Add(h / (integ1 + integ2));
                 }
@@ -257,9 +259,9 @@ namespace thermal_conductivity
             alphai.Add(mt[0][1]); betai.Add(mt[0][3]);
             for (int i = 1; i < n; i++)
             {
-                double Ai = mt[i][0], Ci = -mt[i][1], Bi = mt[i][2], Phii = -mt[i][3];
-                alphai.Add(Bi / (Ci - alphai[i - 1] * Ai));
-                betai.Add((Phii + Ai * betai[i - 1]) / (Ci - alphai[i - 1] * Ai));
+                double Ai = mt[i][0], Ci = mt[i][1], Bi = mt[i][2], Phii = mt[i][3];
+                alphai.Add(-Bi / (Ci + alphai[i - 1] * Ai));
+                betai.Add((Phii - Ai * betai[i - 1]) / (Ci + alphai[i - 1] * Ai));
             }
 
             double[] vi = new double[n + 1];
@@ -297,7 +299,7 @@ namespace thermal_conductivity
             int m = task == "test" ? 1 : 2;  // в случае основной задачи нужно перепрыгивать значения от половинного шага
 
             int n = xi.Count();
-            for(int i = 1; i < n; i++)
+            for(int i = 0; i < n; i++)
             {
                 v_list.Add(xi[i], vi[i]);
                 u_list.Add(xi[i], ui[i * m]);
@@ -331,7 +333,7 @@ namespace thermal_conductivity
             
             int n = xi.Count();
 
-            for (int i = 1; i < n - 1; i++)
+            for (int i = 1; i < n; i++)
             {
                 err_list.Add(xi[i], dif[i]);
             }

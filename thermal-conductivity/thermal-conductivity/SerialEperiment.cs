@@ -15,6 +15,9 @@ namespace thermal_conductivity
         public SerialEperiment()
         {
             InitializeComponent();
+            zedGraphControl1.GraphPane.Title = "Зависимость погрешности от числа разбиений";
+            zedGraphControl1.GraphPane.XAxis.Title = "число разбиений";
+            zedGraphControl1.GraphPane.YAxis.Title = "|u(x) - v(x)|";
         }
 
         public void Button1_Click(object sender, EventArgs e)
@@ -41,9 +44,6 @@ namespace thermal_conductivity
             }
 
             zedGraphControl1.GraphPane.CurveList.Clear();
-            zedGraphControl1.GraphPane.Title = "Зависимость погрешности от числа разбиений";
-            zedGraphControl1.GraphPane.XAxis.Title = "число разбиений";
-            zedGraphControl1.GraphPane.YAxis.Title = "|u(x) - v(x)|";
             ZedGraph.LineItem Curve1 = zedGraphControl1.GraphPane.AddCurve("", point_list, Color.FromName("Red"), ZedGraph.SymbolType.None);
             zedGraphControl1.AxisChange();
             zedGraphControl1.Invalidate();
