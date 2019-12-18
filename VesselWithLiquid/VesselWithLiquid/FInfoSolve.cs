@@ -20,16 +20,16 @@ namespace VesselWithLiquid
         public void InitInfo(OutputData data)
         {
             sOutN.Text = data.n.ToString();
-            srightErr.Text = data.rightErr.ToString();
-            sOutLte.Text = data.maxLte.ToString();
-            sOutHMax.Text = data.maxH.Key.ToString();
-            sOutXHMax.Text = data.maxH.Value.ToString();
-            sOutHMin.Text = data.minH.Key.ToString();
-            sOutXHMin.Text = data.minH.Value.ToString();
+            srightErr.Text = data.righterr.ToString();
+            sOutLte.Text = data.maxlte.ToString();
+            sOutHMax.Text = data.maxh.ToString();
+            sOutXHMax.Text = data.xmaxh.ToString();
+            sOutHMin.Text = data.minh.ToString();
+            sOutXHMin.Text = data.xminh.ToString();
             sOutC1.Text = data.C1.ToString();
             sOutC2.Text = data.C2.ToString();
-            sOutGte.Text = data.maxGte.Key.ToString();
-            sOutXGte.Text = data.maxGte.Value.ToString();
+            sOutGte.Text = data.maxgte.ToString();
+            sOutXGte.Text = data.xmaxgte.ToString();
             sxlast.Text = data.xlast.ToString();
             sylast.Text = data.ylast.ToString();
         }

@@ -14,12 +14,12 @@ namespace VesselWithLiquid
     {
         List<List<double>> data = new List<List<double>>();
         OutputData calcInfo = new OutputData();
-        double xmax, alpha, sigma, constCoeff;
+        double u0, h, xmax, eps, b;
+        double alpha, sigma, constCoeff;
         const double g = 1.0;
-        int nRows, countCurves = 0;
+        int n, nRows, countCurves = 0;
 
         List<Color> colors = new List<Color>();
-
 
         public Form1()
         {
@@ -60,26 +60,29 @@ namespace VesselWithLiquid
             q.Show();
         }
 
-        private double twon(int n) { return (2 << (n + 1)); }
+        private double twon(int n) { return (2 << (n - 1)); }
 
         private void Button1_Click(object sender, EventArgs e)
         {
-            double u0 = System.Convert.ToDouble(su0.Text);
-            double h = System.Convert.ToDouble(sh.Text);
-            int N = System.Convert.ToInt32(sN.Text);
+            u0 = System.Convert.ToDouble(su0.Text);
+            h = System.Convert.ToDouble(sh.Text);
+            n = System.Convert.ToInt32(sN.Text);
+            eps = System.Convert.ToDouble(seps.Text);
             alpha = System.Convert.ToDouble(salpha.Text);
             sigma = System.Convert.ToDouble(ssigma.Text);
+            xmax = System.Convert.ToDouble(sxmax.Text);
+            b = System.Convert.ToDouble(sb.Text);
             InitConstCoeff();
-            Solve(u0, h, N);
+            Solve();
         }
 
-        double f(double x, double u) { return -0.6*constCoeff / (Math.Pow(u, 3.0/2.0)); }
+        double f(double x, double u) { return -0.6*constCoeff / (Math.Pow(u, 3/2)); }
 
         double GetNextValue(double x, double v, double h)
         {
             double k1 = f(x, v);
-            double k2 = f(x + h / 2.0, v + k1 * (h / 2.0));
-            double k3 = f(x + h / 2.0, v + k2 * (h / 2.0));
+            double k2 = f(x + (h / 2.0), v + k1 * (h / 2.0));
+            double k3 = f(x + (h / 2.0), v + k2 * (h / 2.0));
             double k4 = f(x + h, v + h * k3);
             return v + (h / 6.0) * (k1 + 2.0 * k2 + 2.0 * k3 + k4);
         }
@@ -101,7 +104,7 @@ namespace VesselWithLiquid
         private void Button3_Click(object sender, EventArgs e)
         {
             FTable tableForm = new FTable();
-            tableForm.InitTable(ref data, nRows / 5, 10);
+            tableForm.InitTable(ref data, nRows, 10);
             tableForm.Show();
         }
 
@@ -112,72 +115,67 @@ namespace VesselWithLiquid
             infForm.Show();
         }
 
-        void Solve(double u0, double h, double N)
+        void Solve()
         {
             data = new List<List<double>>();
+
             ZedGraph.PointPairList f1_list = new ZedGraph.PointPairList();
             ZedGraph.PointPairList f2_list = new ZedGraph.PointPairList();
 
             int i = 0, C1 = 0, C2 = 0;
-            double x, v2, S, lte, u, v = u0, vprev = v;
-            double eps = System.Convert.ToDouble(seps.Text);
-            double b = System.Convert.ToDouble(sb.Text);
-            xmax = System.Convert.ToDouble(sxmax.Text);
+            double u, v = u0, vprev = v;
+            double x, v2, S, lte, gte;
+            double maxgte = 0.0, maxlte = 0.0, xmaxgte = 0.0;
+            double minh = 1000.0, maxh = 0.0, xminh = 0.0, xmaxh = 0.0;
 
-            List<double> lteList = new List<double>();
-            List<double> gteList = new List<double>();
-            List<double> hList = new List<double>();
-            List<double> xList = new List<double>();
-
-            for (x = 0.0; Math.Abs(x - xmax) > b && i < N;)
+            for (x = h; xmax - x > b && i < n;)
             {
+                u = ExactSolve(x, u0);
                 v = GetNextValue(x, vprev, h);
-                vprev = v;
+                if (v <= 0) break;
+
+
                 v2 = GetNextValue(x, vprev, h / 2.0);
                 v2 = GetNextValue(x + (h / 2.0), v2, h / 2.0);
-                x += h;
-                S = (v2 - v) / (twon(4) - 1.0);
+                S = Math.Abs(v2 - v) / (twon(4) - 1.0);
+
                 lte = S * twon(4);
+                gte = Math.Abs(u - v);
 
-                if (v < 0) break;
+                if (h > maxh) { maxh = h; xmaxh = x; }
+                if (h < minh) { minh = h; xminh = x; }
+                if (gte > maxgte) { maxgte = gte; xmaxgte = x; }
+                if (lte > maxlte) { maxlte = lte; }
 
-                lteList.Add(lte);
-                hList.Add(h);
-                xList.Add(x);
-
-                if (Math.Abs(S) > eps)
+                if (S > eps)
                 {
-                    x -= h;
                     h /= 2;
                     C1++;
-                    continue;
                 }
-                else if (Math.Abs(S) < (eps / twon(5)))
+                else
                 {
+                    if (S < (eps / twon(5))) { h *= 2; C2++; }
                     vprev = v;
-                    h *= 2;
-                    C2++;
+
+                    f1_list.Add(x, v);
+                    f2_list.Add(x, u);
+
+                    List<double> tablerow = new List<double>(10) { x, v, v2, v - v2, lte, h, C1, C2, u, gte };
+                    data.Add(tablerow);
+
+                    x += h;
                 }
-                else vprev = v;
-
-                u = ExactSolve(x, u0);
-                gteList.Add(Math.Abs(u - v));
-
-                f1_list.Add(x, v);
-                f2_list.Add(x, u);
-
-                List<double> tablerow = new List<double>(10) { x, v, v2, v - v2, lte, h, C1, C2, u, Math.Abs(u - v) };
-                data.Add(tablerow);
                 i++;
             }
 
             Draw(ref f1_list, xmax);
             Draw(ref f2_list, xmax);
 
-            double maxGte = gteList.Max(), hmax = hList.Max(), hmin = hList.Min();
-            double xhmax = xList[hList.IndexOf(hmax)], xhmin = xList[hList.IndexOf(hmin)];
-            nRows = i;
-            calcInfo.InitData(i, xmax - x, lteList.Max(), C1, C2, hmax, xhmax, hmin, xhmin, maxGte, data[gteList.IndexOf(maxGte)][0], x, v);
+            nRows = data.Count();
+            calcInfo.InitData(i, xmax - x, maxlte, C1, C2, maxh, xmaxh, minh, xminh, maxgte, xmaxgte, x, v);
+
+            if (xmax - x < b) label15.Text = "Вышли на правую границу";
+            else if (v <= 0) label15.Text = "Досчитали до 0";
         }
 
         void Draw(ref ZedGraph.PointPairList f_list, double xmax = 1.0)  // построение графиков
