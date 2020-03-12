@@ -38,21 +38,24 @@
             this.str_nmax = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.is_inter_x = new System.Windows.Forms.RadioButton();
-            this.is_inter_y = new System.Windows.Forms.RadioButton();
             this.is_null_approx = new System.Windows.Forms.RadioButton();
+            this.is_inter_y = new System.Windows.Forms.RadioButton();
+            this.is_inter_x = new System.Windows.Forms.RadioButton();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.is_v = new System.Windows.Forms.RadioButton();
-            this.is_u = new System.Windows.Forms.RadioButton();
             this.is_diff = new System.Windows.Forms.RadioButton();
+            this.is_u = new System.Windows.Forms.RadioButton();
+            this.is_v = new System.Windows.Forms.RadioButton();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.optimalValue = new System.Windows.Forms.RadioButton();
-            this.userValue = new System.Windows.Forms.RadioButton();
-            this.str_w = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
+            this.str_w = new System.Windows.Forms.TextBox();
+            this.userValue = new System.Windows.Forms.RadioButton();
+            this.optimalValue = new System.Windows.Forms.RadioButton();
+            this.label_error = new System.Windows.Forms.Label();
+            this.label_eps = new System.Windows.Forms.Label();
+            this.label_niter = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -150,16 +153,16 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Начальное приближение";
             // 
-            // is_inter_x
+            // is_null_approx
             // 
-            this.is_inter_x.AutoSize = true;
-            this.is_inter_x.Location = new System.Drawing.Point(6, 19);
-            this.is_inter_x.Name = "is_inter_x";
-            this.is_inter_x.Size = new System.Drawing.Size(123, 17);
-            this.is_inter_x.TabIndex = 10;
-            this.is_inter_x.TabStop = true;
-            this.is_inter_x.Text = "Интерполяция по X";
-            this.is_inter_x.UseVisualStyleBackColor = true;
+            this.is_null_approx.AutoSize = true;
+            this.is_null_approx.Location = new System.Drawing.Point(6, 65);
+            this.is_null_approx.Name = "is_null_approx";
+            this.is_null_approx.Size = new System.Drawing.Size(68, 17);
+            this.is_null_approx.TabIndex = 12;
+            this.is_null_approx.TabStop = true;
+            this.is_null_approx.Text = "Нулевое";
+            this.is_null_approx.UseVisualStyleBackColor = true;
             // 
             // is_inter_y
             // 
@@ -172,16 +175,16 @@
             this.is_inter_y.Text = "Интерполяция по Y";
             this.is_inter_y.UseVisualStyleBackColor = true;
             // 
-            // is_null_approx
+            // is_inter_x
             // 
-            this.is_null_approx.AutoSize = true;
-            this.is_null_approx.Location = new System.Drawing.Point(6, 65);
-            this.is_null_approx.Name = "is_null_approx";
-            this.is_null_approx.Size = new System.Drawing.Size(68, 17);
-            this.is_null_approx.TabIndex = 12;
-            this.is_null_approx.TabStop = true;
-            this.is_null_approx.Text = "Нулевое";
-            this.is_null_approx.UseVisualStyleBackColor = true;
+            this.is_inter_x.AutoSize = true;
+            this.is_inter_x.Location = new System.Drawing.Point(6, 19);
+            this.is_inter_x.Name = "is_inter_x";
+            this.is_inter_x.Size = new System.Drawing.Size(123, 17);
+            this.is_inter_x.TabIndex = 10;
+            this.is_inter_x.TabStop = true;
+            this.is_inter_x.Text = "Интерполяция по X";
+            this.is_inter_x.UseVisualStyleBackColor = true;
             // 
             // button1
             // 
@@ -214,16 +217,16 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Вывод в таблицу";
             // 
-            // is_v
+            // is_diff
             // 
-            this.is_v.AutoSize = true;
-            this.is_v.Location = new System.Drawing.Point(6, 19);
-            this.is_v.Name = "is_v";
-            this.is_v.Size = new System.Drawing.Size(50, 17);
-            this.is_v.TabIndex = 14;
-            this.is_v.TabStop = true;
-            this.is_v.Text = "v(x,y)";
-            this.is_v.UseVisualStyleBackColor = true;
+            this.is_diff.AutoSize = true;
+            this.is_diff.Location = new System.Drawing.Point(6, 65);
+            this.is_diff.Name = "is_diff";
+            this.is_diff.Size = new System.Drawing.Size(222, 30);
+            this.is_diff.TabIndex = 16;
+            this.is_diff.TabStop = true;
+            this.is_diff.Text = "| u(x,y)  - v(x, y) | \r\n( | v2(x, y) - v(x,y) | для основной задачи)";
+            this.is_diff.UseVisualStyleBackColor = true;
             // 
             // is_u
             // 
@@ -236,16 +239,16 @@
             this.is_u.Text = "u(x,y) (v2(x, y) для основной задачи)";
             this.is_u.UseVisualStyleBackColor = true;
             // 
-            // is_diff
+            // is_v
             // 
-            this.is_diff.AutoSize = true;
-            this.is_diff.Location = new System.Drawing.Point(6, 65);
-            this.is_diff.Name = "is_diff";
-            this.is_diff.Size = new System.Drawing.Size(222, 30);
-            this.is_diff.TabIndex = 16;
-            this.is_diff.TabStop = true;
-            this.is_diff.Text = "| u(x,y)  - v(x, y) | \r\n( | v2(x, y) - v(x,y) | для основной задачи)";
-            this.is_diff.UseVisualStyleBackColor = true;
+            this.is_v.AutoSize = true;
+            this.is_v.Location = new System.Drawing.Point(6, 19);
+            this.is_v.Name = "is_v";
+            this.is_v.Size = new System.Drawing.Size(50, 17);
+            this.is_v.TabIndex = 14;
+            this.is_v.TabStop = true;
+            this.is_v.Text = "v(x,y)";
+            this.is_v.UseVisualStyleBackColor = true;
             // 
             // dataGridView1
             // 
@@ -268,16 +271,21 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Параметр метода верхней релаксации";
             // 
-            // optimalValue
+            // label5
             // 
-            this.optimalValue.AutoSize = true;
-            this.optimalValue.Location = new System.Drawing.Point(7, 30);
-            this.optimalValue.Name = "optimalValue";
-            this.optimalValue.Size = new System.Drawing.Size(218, 17);
-            this.optimalValue.TabIndex = 0;
-            this.optimalValue.TabStop = true;
-            this.optimalValue.Text = "Использовать оптимальное значение";
-            this.optimalValue.UseVisualStyleBackColor = true;
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(92, 80);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(27, 13);
+            this.label5.TabIndex = 16;
+            this.label5.Text = "w = ";
+            // 
+            // str_w
+            // 
+            this.str_w.Location = new System.Drawing.Point(125, 77);
+            this.str_w.Name = "str_w";
+            this.str_w.Size = new System.Drawing.Size(100, 20);
+            this.str_w.TabIndex = 2;
             // 
             // userValue
             // 
@@ -290,21 +298,40 @@
             this.userValue.Text = "Использовать указанное значение";
             this.userValue.UseVisualStyleBackColor = true;
             // 
-            // str_w
+            // optimalValue
             // 
-            this.str_w.Location = new System.Drawing.Point(125, 77);
-            this.str_w.Name = "str_w";
-            this.str_w.Size = new System.Drawing.Size(100, 20);
-            this.str_w.TabIndex = 2;
+            this.optimalValue.AutoSize = true;
+            this.optimalValue.Location = new System.Drawing.Point(7, 30);
+            this.optimalValue.Name = "optimalValue";
+            this.optimalValue.Size = new System.Drawing.Size(218, 17);
+            this.optimalValue.TabIndex = 0;
+            this.optimalValue.TabStop = true;
+            this.optimalValue.Text = "Использовать оптимальное значение";
+            this.optimalValue.UseVisualStyleBackColor = true;
             // 
-            // label5
+            // label_error
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(92, 80);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(27, 13);
-            this.label5.TabIndex = 16;
-            this.label5.Text = "w = ";
+            this.label_error.AutoSize = true;
+            this.label_error.Location = new System.Drawing.Point(281, 618);
+            this.label_error.Name = "label_error";
+            this.label_error.Size = new System.Drawing.Size(0, 13);
+            this.label_error.TabIndex = 16;
+            // 
+            // label_eps
+            // 
+            this.label_eps.AutoSize = true;
+            this.label_eps.Location = new System.Drawing.Point(281, 658);
+            this.label_eps.Name = "label_eps";
+            this.label_eps.Size = new System.Drawing.Size(0, 13);
+            this.label_eps.TabIndex = 17;
+            // 
+            // label_niter
+            // 
+            this.label_niter.AutoSize = true;
+            this.label_niter.Location = new System.Drawing.Point(669, 658);
+            this.label_niter.Name = "label_niter";
+            this.label_niter.Size = new System.Drawing.Size(0, 13);
+            this.label_niter.TabIndex = 18;
             // 
             // Form1
             // 
@@ -312,6 +339,9 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.ClientSize = new System.Drawing.Size(988, 698);
+            this.Controls.Add(this.label_niter);
+            this.Controls.Add(this.label_eps);
+            this.Controls.Add(this.label_error);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.groupBox2);
@@ -369,6 +399,9 @@
         private System.Windows.Forms.RadioButton optimalValue;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox str_w;
+        private System.Windows.Forms.Label label_error;
+        private System.Windows.Forms.Label label_eps;
+        private System.Windows.Forms.Label label_niter;
     }
 }
 

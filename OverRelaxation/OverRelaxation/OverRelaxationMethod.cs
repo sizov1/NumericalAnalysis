@@ -11,8 +11,9 @@ namespace OverRelaxation
         public double[,] v = null;
         public double a, b, c, d;
         protected double h, t;
-        int n, m, nmax;
-        double eps, w;
+        protected int n, m, nmax;
+        public int countSteps;
+        public double eps, w, maxError, epsMax;
         byte initAprx; // 1 - интер по X; 2 - по Y; 3 - нулевое
         public OverRelaxationMethod(double _a, double _b, double _c, double _d,
                                     int _n, int _m, double _eps, int _nmax, byte _initAprx, double _w)
@@ -22,6 +23,8 @@ namespace OverRelaxation
             eps = _eps; initAprx = _initAprx;
             h = (b - a) / n;
             t = (d - c) / m;
+            countSteps = 0; maxError = 0.0;
+            epsMax = 0.0;
             v = new double[n + 1, m + 1];
 
             if (_w > 2.0 || _w < 0.0)
@@ -39,6 +42,8 @@ namespace OverRelaxation
         public abstract double m2(double y);
         public abstract double m3(double x);
         public abstract double m4(double x);
+
+        public abstract void MaxError();
 
         double CalculateOptimalValue()
         {
@@ -115,11 +120,12 @@ namespace OverRelaxation
             InitBorderValue();
             InitialApproximate();
 
-            double epsMax = 0.0, epsCurr = 0.0;
+            epsMax = 0.0;
+            double epsCurr = 0.0;
             double h2 = - ((double)n / (b - a)) * ((double)n / (b - a));
             double t2 = - ((double)m / (d - c)) * ((double)m / (d - c));
             double a2 = -2 * (h2 + t2);
-            int countSteps = 0;
+            countSteps = 0;
             bool stop = false;
             while(!stop)
             {
@@ -141,7 +147,9 @@ namespace OverRelaxation
                 countSteps++;
                 if (epsMax < eps || countSteps >= nmax) stop = true;
             }
+            MaxError();
         }
+
     }
 
     class TestTask : OverRelaxationMethod
@@ -151,9 +159,22 @@ namespace OverRelaxation
                         : base(_a, _b, _c, _d, _n, _m, _eps, _nmax, _initAprx, _w)
         { }
 
+        public override void MaxError()
+        {
+            List<double> errors = new List<double>();
+            for (int i = 1; i < n; i++)
+            {
+                for (int j = 1; j < m; j++)
+                {
+                    errors.Add(Math.Abs(v[i, j] - u(a + i * h, c + j * t)));
+                }
+            }
+            maxError = errors.Max();
+        }
+
         public override double f(double x, double y)
         {
-            return (x * x + y * y) * Math.Exp(x * y);
+            return -(x * x + y * y) * Math.Exp(x * y);
         }
 
         public override double m1(double y)
@@ -188,6 +209,19 @@ namespace OverRelaxation
                         int _n, int _m, double _eps, int _nmax, byte _initAprx, double _w)
                         : base(_a, _b, _c, _d, _n, _m, _eps, _nmax, _initAprx, _w)
         { }
+
+        public override void MaxError()
+        {
+            List<double> errors = new List<double>();
+            for (int i = 1; i < n; i++)
+            {
+                for (int j = 1; j < m; j++)
+                {
+                    errors.Add(Math.Abs(v[i, j] - f(a + i * h, b + j * t)));
+                }
+            }
+            maxError = errors.Max();
+        }
 
         public override double f(double x, double y)
         {
