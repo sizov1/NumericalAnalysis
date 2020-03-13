@@ -111,7 +111,6 @@ namespace OverRelaxation
             ConstructTable(ref ncolumns, ref nrows);
             WriteXYValueToTable(-1.0, 0.0, 0.0, 1.0, n, m);
 
-
             if(is_u.Checked)
             {
                 for(int i = 2; i < nrows - 1; i++)
@@ -155,6 +154,85 @@ namespace OverRelaxation
             label_eps.Text = "Достигнутая точность итерационного метода: " + task.epsMax;
 
             label_niter.Text = "На решение затрачено" + task.countSteps + " итераций";
+
+            label_w.Text = "w = " + task.w.ToString();
+        }
+
+        private void Button2_Click(object sender, EventArgs e)
+        {
+            double eps = Convert.ToDouble(str_eps.Text);
+            int nmax = Convert.ToInt32(str_nmax.Text);
+            int n = Convert.ToInt32(str_n.Text);
+            int m = Convert.ToInt32(str_m.Text);
+            double w = -1.0;
+            if (userValue.Checked) w = Convert.ToDouble(str_w.Text);
+            byte initApprx = 3;
+            if (is_inter_x.Checked) initApprx = 1;
+            else if (is_inter_y.Checked) initApprx = 2;
+
+            MainTask task = new MainTask(-1.0, 0.0, 0.0, 1.0, n, m, eps, nmax, initApprx, w);
+            task.Solve();
+
+            if (is_u.Checked)
+            {
+                int nrows = task.m2 + 2;
+                int ncolumns = task.n2 + 3;
+                ConstructTable(ref ncolumns, ref nrows);
+                WriteXYValueToTable(-1.0, 0.0, 0.0, 1.0, n, m);
+
+                for (int i = 2; i < nrows - 1; i++)
+                {
+                    for (int j = 3; j < ncolumns - 1; j++)
+                    {
+                        int ii = Convert.ToInt32(dataGridView1.Columns[j].Name);
+                        int jj = Convert.ToInt32(dataGridView1.Rows[i].Cells[0].Value);
+                        dataGridView1.Rows[i].Cells[j].Value = task.v2[ii, jj];
+                    }
+                }
+            }
+            else if (is_v.Checked)
+            {
+                int nrows = m + 2;
+                int ncolumns = n + 3;
+                ConstructTable(ref ncolumns, ref nrows);
+                WriteXYValueToTable(-1.0, 0.0, 0.0, 1.0, n, m);
+
+                for (int i = 2; i < nrows - 1; i++)
+                {
+                    for (int j = 3; j < ncolumns - 1; j++)
+                    {
+                        int ii = Convert.ToInt32(dataGridView1.Columns[j].Name);
+                        int jj = Convert.ToInt32(dataGridView1.Rows[i].Cells[0].Value);
+                        dataGridView1.Rows[i].Cells[j].Value = task.v[ii, jj];
+                    }
+                }
+            }
+            else if (is_diff.Checked)
+            {
+                int nrows = m + 2;
+                int ncolumns = n + 3;
+                ConstructTable(ref ncolumns, ref nrows);
+                WriteXYValueToTable(-1.0, 0.0, 0.0, 1.0, n, m);
+
+                for (int i = 2; i < nrows - 1; i++)
+                {
+                    for (int j = 3; j < ncolumns - 1; j++)
+                    {
+                        int ii = Convert.ToInt32(dataGridView1.Columns[j].Name);
+                        int jj = Convert.ToInt32(dataGridView1.Rows[i].Cells[0].Value);
+                        dataGridView1.Rows[i].Cells[j].Value = Math.Abs(task.v2[ii*2, jj*2] - task.v[ii, jj]);
+                    }
+                }
+            }
+
+            label_error.Text = "Основная задача быда решена с точностью: " +
+                "max|v2[i][j] - v[i][j]| = " + task.maxError.ToString();
+
+            label_eps.Text = "Достигнутая точность итерационного метода: " + task.epsMax;
+
+            label_niter.Text = "На решение затрачено" + task.countSteps + " итераций";
+
+            label_w.Text = "w = " + task.w.ToString();
         }
     }
 }

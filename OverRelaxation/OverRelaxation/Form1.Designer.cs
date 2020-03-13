@@ -56,6 +56,7 @@
             this.label_error = new System.Windows.Forms.Label();
             this.label_eps = new System.Windows.Forms.Label();
             this.label_niter = new System.Windows.Forms.Label();
+            this.label_w = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -204,6 +205,7 @@
             this.button2.TabIndex = 12;
             this.button2.Text = "Решить основную задачу";
             this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.Button2_Click);
             // 
             // groupBox2
             // 
@@ -333,12 +335,21 @@
             this.label_niter.Size = new System.Drawing.Size(0, 13);
             this.label_niter.TabIndex = 18;
             // 
+            // label_w
+            // 
+            this.label_w.AutoSize = true;
+            this.label_w.Location = new System.Drawing.Point(649, 628);
+            this.label_w.Name = "label_w";
+            this.label_w.Size = new System.Drawing.Size(0, 13);
+            this.label_w.TabIndex = 19;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.ClientSize = new System.Drawing.Size(988, 698);
+            this.Controls.Add(this.label_w);
             this.Controls.Add(this.label_niter);
             this.Controls.Add(this.label_eps);
             this.Controls.Add(this.label_error);
@@ -402,6 +413,7 @@
         private System.Windows.Forms.Label label_error;
         private System.Windows.Forms.Label label_eps;
         private System.Windows.Forms.Label label_niter;
+        private System.Windows.Forms.Label label_w;
     }
 }
 
