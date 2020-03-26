@@ -171,22 +171,24 @@ namespace OverRelaxation
             else if (is_inter_y.Checked) initApprx = 2;
 
             MainTask task = new MainTask(-1.0, 0.0, 0.0, 1.0, n, m, eps, nmax, initApprx, w);
+            MainTask task2 = new MainTask(-1.0, 0.0, 0.0, 1.0, 2 * n, 2 * m, eps, nmax, initApprx, w);
             task.Solve();
+            task2.Solve();
 
             if (is_u.Checked)
             {
-                int nrows = task.m2 + 2;
-                int ncolumns = task.n2 + 3;
+                int nrows = 2 * m + 2;
+                int ncolumns = 2 * n + 3;
                 ConstructTable(ref ncolumns, ref nrows);
                 WriteXYValueToTable(-1.0, 0.0, 0.0, 1.0, n, m);
 
-                for (int i = 2; i < nrows - 1; i++)
+                for (int i = 2; i < nrows - 2; i++)
                 {
                     for (int j = 3; j < ncolumns - 1; j++)
                     {
                         int ii = Convert.ToInt32(dataGridView1.Columns[j].Name);
                         int jj = Convert.ToInt32(dataGridView1.Rows[i].Cells[0].Value);
-                        dataGridView1.Rows[i].Cells[j].Value = task.v2[ii, jj];
+                        dataGridView1.Rows[i].Cells[j].Value = task2.v[ii, jj];
                     }
                 }
             }
@@ -197,7 +199,7 @@ namespace OverRelaxation
                 ConstructTable(ref ncolumns, ref nrows);
                 WriteXYValueToTable(-1.0, 0.0, 0.0, 1.0, n, m);
 
-                for (int i = 2; i < nrows - 1; i++)
+                for (int i = 2; i < nrows - 2; i++)
                 {
                     for (int j = 3; j < ncolumns - 1; j++)
                     {
@@ -214,19 +216,29 @@ namespace OverRelaxation
                 ConstructTable(ref ncolumns, ref nrows);
                 WriteXYValueToTable(-1.0, 0.0, 0.0, 1.0, n, m);
 
-                for (int i = 2; i < nrows - 1; i++)
+                for (int i = 2; i < nrows - 2; i++)
                 {
                     for (int j = 3; j < ncolumns - 1; j++)
                     {
                         int ii = Convert.ToInt32(dataGridView1.Columns[j].Name);
                         int jj = Convert.ToInt32(dataGridView1.Rows[i].Cells[0].Value);
-                        dataGridView1.Rows[i].Cells[j].Value = Math.Abs(task.v2[ii*2, jj*2] - task.v[ii, jj]);
+                        dataGridView1.Rows[i].Cells[j].Value = Math.Abs(task2.v[ii*2, jj*2] - task.v[ii, jj]);
                     }
                 }
             }
 
+            List<double> errors = new List<double>();
+            for (int i = 1; i < n; i++)
+            {
+                for (int j = 1; j < m; j++)
+                {
+                    errors.Add(Math.Abs(task2.v[i * 2, j * 2] - task.v[i, j]));
+                }
+            }
+            double maxError = errors.Max();
+
             label_error.Text = "Основная задача быда решена с точностью: " +
-                "max|v2[i][j] - v[i][j]| = " + task.maxError.ToString();
+                "max|v2[i][j] - v[i][j]| = " + maxError.ToString();
 
             label_eps.Text = "Достигнутая точность итерационного метода: " + task.epsMax;
 
