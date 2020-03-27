@@ -57,6 +57,8 @@
             this.label_eps = new System.Windows.Forms.Label();
             this.label_niter = new System.Windows.Forms.Label();
             this.label_w = new System.Windows.Forms.Label();
+            this.button3 = new System.Windows.Forms.Button();
+            this.button4 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -98,7 +100,7 @@
             this.str_n.Name = "str_n";
             this.str_n.Size = new System.Drawing.Size(100, 20);
             this.str_n.TabIndex = 3;
-            this.str_n.Text = "100";
+            this.str_n.Text = "10";
             // 
             // str_m
             // 
@@ -106,7 +108,7 @@
             this.str_m.Name = "str_m";
             this.str_m.Size = new System.Drawing.Size(100, 20);
             this.str_m.TabIndex = 4;
-            this.str_m.Text = "100";
+            this.str_m.Text = "10";
             // 
             // label3
             // 
@@ -123,7 +125,7 @@
             this.str_eps.Name = "str_eps";
             this.str_eps.Size = new System.Drawing.Size(100, 20);
             this.str_eps.TabIndex = 6;
-            this.str_eps.Text = "0.0000001";
+            this.str_eps.Text = "1e-008";
             // 
             // str_nmax
             // 
@@ -131,7 +133,7 @@
             this.str_nmax.Name = "str_nmax";
             this.str_nmax.Size = new System.Drawing.Size(100, 20);
             this.str_nmax.TabIndex = 7;
-            this.str_nmax.Text = "1000";
+            this.str_nmax.Text = "100000";
             // 
             // label4
             // 
@@ -191,9 +193,9 @@
             // 
             this.button1.Location = new System.Drawing.Point(18, 617);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(200, 35);
+            this.button1.Size = new System.Drawing.Size(104, 35);
             this.button1.TabIndex = 11;
-            this.button1.Text = "Решить тестовую задачу";
+            this.button1.Text = "Решить тестовую задачу МВР";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.Button1_Click);
             // 
@@ -201,9 +203,9 @@
             // 
             this.button2.Location = new System.Drawing.Point(18, 658);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(200, 35);
+            this.button2.Size = new System.Drawing.Size(104, 51);
             this.button2.TabIndex = 12;
-            this.button2.Text = "Решить основную задачу";
+            this.button2.Text = "Решить основную задачу МВР";
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.Button2_Click);
             // 
@@ -257,6 +259,7 @@
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Location = new System.Drawing.Point(281, 13);
             this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.Size = new System.Drawing.Size(695, 598);
             this.dataGridView1.TabIndex = 14;
             // 
@@ -343,12 +346,34 @@
             this.label_w.Size = new System.Drawing.Size(0, 13);
             this.label_w.TabIndex = 19;
             // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(143, 617);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(104, 35);
+            this.button3.TabIndex = 20;
+            this.button3.Text = "Решить тестовую задачу ММН";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
+            // 
+            // button4
+            // 
+            this.button4.Location = new System.Drawing.Point(143, 658);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(104, 51);
+            this.button4.TabIndex = 21;
+            this.button4.Text = "Решить основную задачу ММН";
+            this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.ClientSize = new System.Drawing.Size(988, 698);
+            this.ClientSize = new System.Drawing.Size(988, 714);
+            this.Controls.Add(this.button4);
+            this.Controls.Add(this.button3);
             this.Controls.Add(this.label_w);
             this.Controls.Add(this.label_niter);
             this.Controls.Add(this.label_eps);
@@ -414,6 +439,8 @@
         private System.Windows.Forms.Label label_eps;
         private System.Windows.Forms.Label label_niter;
         private System.Windows.Forms.Label label_w;
+        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button button4;
     }
 }
 

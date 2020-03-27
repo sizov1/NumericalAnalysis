@@ -154,8 +154,8 @@ namespace OverRelaxation
                     for(int j = 1; j < m; j++)
                     {
                         double oldValue = v[i,j];
-                        double newValue = -w * (t2 * (v[i + 1,j] + v[i - 1,j]) +
-                                                  h2 * (v[i,j + 1] + v[i,j - 1]));
+                        double newValue = -w * (h2 * (v[i + 1,j] + v[i - 1,j]) +
+                                                  t2 * (v[i,j + 1] + v[i,j - 1]));
                         newValue += (1 - w) * a2 * v[i,j] + w * f(a + i*h, c + j*t);
                         newValue /= a2;
                         epsCurr = Math.Abs(oldValue - newValue);
@@ -258,6 +258,185 @@ namespace OverRelaxation
         public override double M3(double x)
         {
             return - x * (x + 1);
+        }
+
+        public override double M4(double x)
+        {
+            return -x * (x + 1);
+        }
+    }
+
+    abstract class MinimumResidualsMethod : IterationMethod
+    {
+        public double[,] r = null;
+        public MinimumResidualsMethod(double _a, double _b, double _c, double _d,
+                                    int _n, int _m, double _eps, int _nmax, byte _initAprx) :
+            base(_a, _b, _c, _d, _n, _m, _eps, _nmax, _initAprx)
+        {
+            r = new double[n + 1, m + 1];
+        }
+
+        public abstract void MaxError();
+
+        protected double CalculateParameter(double h, double t)
+        {
+            double h2 = -((double)n / (b - a)) * ((double)n / (b - a));
+            double t2 = -((double)m / (d - c)) * ((double)m / (d - c));
+            double a2 = -2 * (h2 + t2);
+            double divider = 0.0;
+            double ts = 0.0;
+            double temp;
+            for (int i = 1; i < n; i++)
+            {
+                for (int j = 1; j < m; j++)
+                {
+                    temp = (r[i, j] * a2 + h2 * (r[i + 1, j] + r[i - 1, j]) + t2 * (r[i, j + 1] + r[i, j - 1]));
+                    ts += temp * r[i, j];
+                    divider += temp * temp;
+                }
+            }
+            ts = ts / divider;
+            return ts;
+        }
+
+        public virtual void Solve()
+        {
+            InitBorderValue();
+            InitialApproximate();
+
+            epsMax = 0.0;
+            double epsCurr = 0.0;
+            double h2 = -((double)n / (b - a)) * ((double)n / (b - a));
+            double t2 = -((double)m / (d - c)) * ((double)m / (d - c));
+            double a2 = -2 * (h2 + t2);
+            countSteps = 0;
+            bool stop = false;
+            double ts;
+            while (!stop)
+            {
+                epsMax = 0.0;
+
+                //невязка на текущей итерации
+                for (int i = 1; i < n; i++)
+                {
+                    for (int j = 1; j < m; j++)
+                    {
+                        r[i, j] = v[i, j] * a2 + h2 * (v[i - 1, j] + v[i + 1, j]) + t2 * (v[i, j - 1] + v[i, j + 1])
+                            - f(a + i * h, c + j * t); 
+                    }
+                }
+
+                ts = CalculateParameter(h, t);
+
+                //обновление компонент
+                for (int i = 1; i < n; i++)
+                {
+                    for (int j = 1; j < m; j++)
+                    {
+                        double oldValue = v[i, j];
+
+                        double newValue =  v[i, j] - ts * r[i, j]; 
+                                               
+                        epsCurr = Math.Abs(oldValue - newValue);
+                        if (epsCurr > epsMax) epsMax = epsCurr;
+                        v[i, j] = newValue;
+                    }
+                }
+                countSteps++;
+                if (epsMax < eps || countSteps >= nmax) stop = true;
+            }
+            MaxError();
+        }
+
+    }
+
+    class TestTaskMRM : MinimumResidualsMethod
+    {
+        public TestTaskMRM(double _a, double _b, double _c, double _d,
+                        int _n, int _m, double _eps, int _nmax, byte _initAprx)
+                        : base(_a, _b, _c, _d, _n, _m, _eps, _nmax, _initAprx)
+        { }
+
+        public override void MaxError()
+        {
+            List<double> errors = new List<double>();
+            for (int i = 1; i < n; i++)
+            {
+                for (int j = 1; j < m; j++)
+                {
+                    errors.Add(Math.Abs(v[i, j] - u(a + i * h, c + j * t)));
+                }
+            }
+            maxError = errors.Max();
+        }
+
+        public override double f(double x, double y)
+        {
+            return -(x * x + y * y) * Math.Exp(x * y);
+        }
+
+        public override double M1(double y)
+        {
+            return Math.Exp(a * y);
+        }
+
+        public override double M2(double y)
+        {
+            return Math.Exp(b * y);
+        }
+
+        public override double M3(double x)
+        {
+            return Math.Exp(x * c);
+        }
+
+        public override double M4(double x)
+        {
+            return Math.Exp(x * d);
+        }
+
+        public double u(double x, double y)
+        {
+            return Math.Exp(x * y);
+        }
+    }
+
+    class MainTaskMRM : MinimumResidualsMethod
+    {
+        public MainTaskMRM(double _a, double _b, double _c, double _d,
+                        int _n, int _m, double _eps, int _nmax, byte _initAprx)
+                        : base(_a, _b, _c, _d, _n, _m, _eps, _nmax, _initAprx)
+        {
+        }
+
+        public override void Solve()
+        {
+            base.Solve();
+        }
+
+        public override void MaxError()
+        {
+            maxError = 0.0;
+        }
+
+        public override double f(double x, double y)
+        {
+            return Math.Cosh(x * x * y);
+        }
+
+        public override double M1(double y)
+        {
+            return Math.Sin(Math.PI * y);
+        }
+
+        public override double M2(double y)
+        {
+            return Math.Abs(Math.Sin(2 * Math.PI * y));
+        }
+
+        public override double M3(double x)
+        {
+            return -x * (x + 1);
         }
 
         public override double M4(double x)
