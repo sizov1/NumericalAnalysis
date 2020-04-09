@@ -12,9 +12,40 @@ namespace OverRelaxation
 {
     public partial class Form1 : Form
     {
+        bool test = true;
+        double eps, w, h, t;
+        int nmax, n, m;
+        byte initApprx;
+        double a = -1.0, b = 0.0, c = 0.0, d = 1.0;
         public Form1()
         {
             InitializeComponent();
+        }
+
+        void InitMethodParameters()
+        {
+            eps = Convert.ToDouble(str_eps.Text);
+            nmax = Convert.ToInt32(str_nmax.Text);
+            n = Convert.ToInt32(str_n.Text);
+            m = Convert.ToInt32(str_m.Text);
+            w = -1.0;
+            if (userValue.Checked)
+            {
+                w = Convert.ToDouble(str_w.Text);
+            }
+
+            initApprx = 3;
+            if (is_inter_x.Checked)
+            {
+                initApprx = 1;
+            }
+            else if (is_inter_y.Checked)
+            {
+                initApprx = 2;
+            }
+
+            h = (b - a) / n;
+            t = (d - c) / m;
         }
 
         void AddColumn(String name, String headerText)
@@ -41,8 +72,8 @@ namespace OverRelaxation
             dataGridView1.Columns["j"].Frozen = true;
             dataGridView1.Columns["i"].Frozen = true;
 
-            int stepX = ((nRows - 2) / 100) + 1;
-            int stepY = ((nColumns - 3) / 100) + 1;
+            int stepX = ((nRows - 2) / 30) + 1;
+            int stepY = ((nColumns - 3) / 30) + 1;
             for (int i = 0; i < nColumns - 2; i+=stepX)
             {
                 AddColumn(i.ToString(), i.ToString());
@@ -91,175 +122,131 @@ namespace OverRelaxation
             }
         }
 
-        private void Button1_Click(object sender, EventArgs e)
+        void InitUTable(int nrows, int ncolumns, ref DirichletTask task)
         {
-            double eps = Convert.ToDouble(str_eps.Text);
-            int nmax = Convert.ToInt32(str_nmax.Text);
-            int n = Convert.ToInt32(str_n.Text);
-            int m = Convert.ToInt32(str_m.Text);
-            double w = -1.0;
-            if (userValue.Checked) w = Convert.ToDouble(str_w.Text);
-            byte initApprx = 3;
-            if (is_inter_x.Checked) initApprx = 1;
-            else if (is_inter_y.Checked) initApprx = 2;
-
-            TestTask task = new TestTask(-1.0, 0.0, 0.0, 1.0, n, m, eps, nmax, initApprx, w);
-            task.Solve();
-
-            int nrows = m + 2;
-            int ncolumns = n + 3;
-            ConstructTable(ref ncolumns, ref nrows);
-            WriteXYValueToTable(-1.0, 0.0, 0.0, 1.0, n, m);
-
-            if(is_u.Checked)
+            for (int i = 1; i < nrows - 1; i++)
             {
-                for(int i = 1; i < nrows - 1; i++)
+                for (int j = 2; j < ncolumns; j++)
                 {
-                    for(int j = 2; j < ncolumns; j++)
-                    {
-                        double x = Convert.ToDouble(dataGridView1.Rows[0].Cells[j].Value);
-                        double y = Convert.ToDouble(dataGridView1.Rows[i].Cells[1].Value);
-                        dataGridView1.Rows[i].Cells[j].Value = task.u(x, y);
-                    }
-                }
-            } else if(is_v.Checked)
-            {
-                for (int i = 1; i < nrows - 1; i++)
-                {
-                    for (int j = 2; j < ncolumns; j++)
-                    {
-                        int ii = Convert.ToInt32(dataGridView1.Columns[j].Name);
-                        int jj = Convert.ToInt32(dataGridView1.Rows[i].Cells[0].Value);
-                        dataGridView1.Rows[i].Cells[j].Value = task.v[ii,jj];
-                    }
-                }
-            } else if(is_diff.Checked)
-            {
-                for (int i = 1; i < nrows - 1; i++)
-                {
-                    for (int j = 2; j < ncolumns; j++)
-                    {
-                        double x = Convert.ToDouble(dataGridView1.Rows[0].Cells[j].Value);
-                        double y = Convert.ToDouble(dataGridView1.Rows[i].Cells[1].Value);
-                        int ii = Convert.ToInt32(dataGridView1.Columns[j].Name);
-                        int jj = Convert.ToInt32(dataGridView1.Rows[i].Cells[0].Value);
-                        dataGridView1.Rows[i].Cells[j].Value = Math.Abs(task.u(x, y) - task.v[ii, jj]);
-                    }
+                    double x = Convert.ToDouble(dataGridView1.Rows[0].Cells[j].Value);
+                    double y = Convert.ToDouble(dataGridView1.Rows[i].Cells[1].Value);
+                    dataGridView1.Rows[i].Cells[j].Value = task.u(x, y);
                 }
             }
-
-            label_error.Text = "Тестовая задача быда решена с точностью: " +
-                "max|u[i][j] - v[i][j]| = " + task.maxError.ToString();
-
-            label_eps.Text = "Достигнутая точность итерационного метода: " + task.epsMax;
-
-            label_niter.Text = "На решение затрачено" + task.countSteps + " итераций";
-
-            label_w.Text = "w = " + task.w.ToString();
+        }
+        
+        void InitVTable(int nrows, int ncolumns, ref DirichletTask task)
+        {
+            for (int i = 1; i < nrows - 1; i++)
+            {
+                for (int j = 2; j < ncolumns; j++)
+                {
+                    int ii = Convert.ToInt32(dataGridView1.Columns[j].Name);
+                    int jj = Convert.ToInt32(dataGridView1.Rows[i].Cells[0].Value);
+                    dataGridView1.Rows[i].Cells[j].Value = task.v[ii, jj];
+                }
+            }
         }
 
-        private void Button2_Click(object sender, EventArgs e)
+        void InitTestDifferenceTable(int nrows, int ncolumns, ref DirichletTask task)
         {
-            double eps = Convert.ToDouble(str_eps.Text);
-            int nmax = Convert.ToInt32(str_nmax.Text);
-            int n = Convert.ToInt32(str_n.Text);
-            int m = Convert.ToInt32(str_m.Text);
-            double w = -1.0;
-            if (userValue.Checked) w = Convert.ToDouble(str_w.Text);
-            byte initApprx = 3;
-            if (is_inter_x.Checked) initApprx = 1;
-            else if (is_inter_y.Checked) initApprx = 2;
-
-            MainTask task = new MainTask(-1.0, 0.0, 0.0, 1.0, n, m, eps, nmax, initApprx, w);
-            MainTask task2 = new MainTask(-1.0, 0.0, 0.0, 1.0, 2 * n, 2 * m, eps, nmax, initApprx, w);
-            task.Solve();
-            task2.Solve();
-
-            if (is_u.Checked)
+            for (int i = 1; i < nrows - 1; i++)
             {
-                int nrows = 2 * m + 2;
-                int ncolumns = 2 * n + 3;
-                ConstructTable(ref ncolumns, ref nrows);
-                WriteXYValueToTable(-1.0, 0.0, 0.0, 1.0, n, m);
-
-                for (int i = 1; i < nrows - 1; i++)
+                for (int j = 2; j < ncolumns; j++)
                 {
-                    for (int j = 2; j < ncolumns; j++)
-                    {
-                        int ii = Convert.ToInt32(dataGridView1.Columns[j].Name);
-                        int jj = Convert.ToInt32(dataGridView1.Rows[i].Cells[0].Value);
-                        dataGridView1.Rows[i].Cells[j].Value = task2.v[ii, jj];
-                    }
+                    double x = Convert.ToDouble(dataGridView1.Rows[0].Cells[j].Value);
+                    double y = Convert.ToDouble(dataGridView1.Rows[i].Cells[1].Value);
+                    int ii = Convert.ToInt32(dataGridView1.Columns[j].Name);
+                    int jj = Convert.ToInt32(dataGridView1.Rows[i].Cells[0].Value);
+                    dataGridView1.Rows[i].Cells[j].Value = Math.Abs(task.u(x, y) - task.v[ii, jj]);
                 }
             }
-            else if (is_v.Checked)
-            {
-                int nrows = m + 2;
-                int ncolumns = n + 3;
-                ConstructTable(ref ncolumns, ref nrows);
-                WriteXYValueToTable(-1.0, 0.0, 0.0, 1.0, n, m);
+        }
 
-                for (int i = 1; i < nrows - 1; i++)
+       
+
+        void InitMainDifferenceTable(int nrows, int ncolumns, ref DirichletTask task, ref DirichletTask task2)
+        {
+            for (int i = 1; i < nrows - 1; i++)
+            {
+                for (int j = 2; j < ncolumns; j++)
                 {
-                    for (int j = 2; j < ncolumns; j++)
-                    {
-                        int ii = Convert.ToInt32(dataGridView1.Columns[j].Name);
-                        int jj = Convert.ToInt32(dataGridView1.Rows[i].Cells[0].Value);
-                        dataGridView1.Rows[i].Cells[j].Value = task.v[ii, jj];
-                    }
+                    int ii = Convert.ToInt32(dataGridView1.Columns[j].Name);
+                    int jj = Convert.ToInt32(dataGridView1.Rows[i].Cells[0].Value);
+                    dataGridView1.Rows[i].Cells[j].Value = Math.Abs(task2.v[ii * 2, jj * 2] - task.v[ii, jj]);
                 }
             }
-            else if (is_diff.Checked)
-            {
-                int nrows = m + 2;
-                int ncolumns = n + 3;
-                ConstructTable(ref ncolumns, ref nrows);
-                WriteXYValueToTable(-1.0, 0.0, 0.0, 1.0, n, m);
+        }
 
-                for (int i = 1; i < nrows - 1; i++)
-                {
-                    for (int j = 2; j < ncolumns; j++)
-                    {
-                        int ii = Convert.ToInt32(dataGridView1.Columns[j].Name);
-                        int jj = Convert.ToInt32(dataGridView1.Rows[i].Cells[0].Value);
-                        dataGridView1.Rows[i].Cells[j].Value = Math.Abs(task2.v[ii*2, jj*2] - task.v[ii, jj]);
-                    }
-                }
-            }
-
-            List<double> errors = new List<double>();
+        double CalculateTestError(ref DirichletTask task, ref int iTotalEps, ref int jTotalEps)
+        {
+            double maxError = -1e100;
             for (int i = 1; i < n; i++)
             {
                 for (int j = 1; j < m; j++)
                 {
-                    errors.Add(Math.Abs(task2.v[i * 2, j * 2] - task.v[i, j]));
+                    double x = a + i * h;
+                    double y = c + j * t;
+                    double currError = Math.Abs(task.u(x, y) - task.v[i, j]);
+                    if (currError > maxError)
+                    {
+                        maxError = currError;
+                        iTotalEps = i; jTotalEps = j;
+                    }
                 }
             }
-            double maxError = errors.Max();
-
-            label_error.Text = "Основная задача быда решена с точностью: " +
-                "max|v2[i][j] - v[i][j]| = " + maxError.ToString();
-
-            label_eps.Text = "Достигнутая точность итерационного метода: " + task.epsMax;
-
-            label_niter.Text = "На решение затрачено" + task.countSteps + " итераций";
-
-            label_w.Text = "w = " + task.w.ToString();
+            return maxError;
         }
 
-        private void button3_Click(object sender, EventArgs e)
+        double CalculateMainError(ref DirichletTask task, ref DirichletTask task2, ref int iTotalEps, ref int jTotalEps)
         {
-            double eps = Convert.ToDouble(str_eps.Text);
-            int nmax = Convert.ToInt32(str_nmax.Text);
-            int n = Convert.ToInt32(str_n.Text);
-            int m = Convert.ToInt32(str_m.Text);
+            double maxError = -1e100;
+            for (int i = 1; i < n; i++)
+            {
+                for (int j = 1; j < m; j++)
+                {
+                    double currError = Math.Abs(task2.v[2*i, 2*j] - task.v[i, j]);
+                    if (currError > maxError)
+                    {
+                        maxError = currError;
+                        iTotalEps = i; jTotalEps = j;
+                    }
+                }
+            }
+            return maxError;
+        }
 
-            byte initApprx = 3;
-            if (is_inter_x.Checked) initApprx = 1;
-            else if (is_inter_y.Checked) initApprx = 2;
+        void WriteResults(bool isTest, double maxError, int iTotalEps, int jTotalEps,
+    double xTotalEps, double yTotalEps, double epsMax, int nIters)
+        {
+            labelIJTotalEps.Text = "которая достигается в узле (i, j) = " + "(" 
+                + iTotalEps.ToString() + ", " + jTotalEps.ToString() + ")";
 
-            TestTaskMRM task = new TestTaskMRM(-1.0, 0.0, 0.0, 1.0, n, m, eps, nmax, initApprx);
-            task.Solve();
+            labelXYTotalEps.Text = "с координатами (x, y) = " + "(" + 
+                xTotalEps.ToString() + ", " + yTotalEps.ToString() + ")";
+
+            if (isTest)
+            {
+                labelTotalEps.Text = "Задача решена с точностью: max|u[i][j] - v[i][j]| = ";
+            }
+            else
+            {
+                labelTotalEps.Text = "Задача решена с точностью: max|v2[i][j] - v[i][j]| = ";
+            }
+
+            labelTotalEps.Text += maxError.ToString();
+
+            labelEps.Text = "Достигнутая точность метода  eps = " + epsMax.ToString();
+
+            labelNIter.Text = "Число итераций метода N = " + nIters.ToString();
+        }
+
+        private void МетодВерхнейРелаксацииToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            InitMethodParameters();
+
+            DirichletTask task = new TestTask(-1.0, 0.0, 0.0, 1.0, n, m, eps, nmax, initApprx, w);
+            task.OverRelaxationMethod();
 
             int nrows = m + 2;
             int ncolumns = n + 3;
@@ -268,139 +255,183 @@ namespace OverRelaxation
 
             if (is_u.Checked)
             {
-                for (int i = 1; i < nrows - 1; i++)
-                {
-                    for (int j = 2; j < ncolumns; j++)
-                    {
-                        double x = Convert.ToDouble(dataGridView1.Rows[0].Cells[j].Value);
-                        double y = Convert.ToDouble(dataGridView1.Rows[i].Cells[1].Value);
-                        dataGridView1.Rows[i].Cells[j].Value = task.u(x, y);
-                    }
-                }
+                InitUTable(nrows, ncolumns, ref task);
             }
             else if (is_v.Checked)
             {
-                for (int i = 1; i < nrows - 1; i++)
-                {
-                    for (int j = 2; j < ncolumns; j++)
-                    {
-                        int ii = Convert.ToInt32(dataGridView1.Columns[j].Name);
-                        int jj = Convert.ToInt32(dataGridView1.Rows[i].Cells[0].Value);
-                        dataGridView1.Rows[i].Cells[j].Value = task.v[ii, jj];
-                    }
-                }
+                InitVTable(nrows, ncolumns, ref task);
             }
             else if (is_diff.Checked)
             {
-                for (int i = 1; i < nrows - 1; i++)
-                {
-                    for (int j = 2; j < ncolumns; j++)
-                    {
-                        double x = Convert.ToDouble(dataGridView1.Rows[0].Cells[j].Value);
-                        double y = Convert.ToDouble(dataGridView1.Rows[i].Cells[1].Value);
-                        int ii = Convert.ToInt32(dataGridView1.Columns[j].Name);
-                        int jj = Convert.ToInt32(dataGridView1.Rows[i].Cells[0].Value);
-                        dataGridView1.Rows[i].Cells[j].Value = Math.Abs(task.u(x, y) - task.v[ii, jj]);
-                    }
-                }
+                InitTestDifferenceTable(nrows, ncolumns, ref task);
             }
 
-            label_error.Text = "Тестовая задача быда решена с точностью: " +
-                "max|u[i][j] - v[i][j]| = " + task.maxError.ToString();
 
-            label_eps.Text = "Достигнутая точность итерационного метода: " + task.epsMax;
+            int iTotalEps = -1, jTotalEps = -1;
+            double maxError = CalculateTestError(ref task, ref iTotalEps, ref jTotalEps);
 
-            label_niter.Text = "На решение затрачено" + task.countSteps + " итераций";
+            double xTotalEps = a + iTotalEps * (b - a) / n;
+            double yTotalEps = c + jTotalEps * (d - c) / m;
 
-            label_w.Text = " ";
+            WriteResults(test, maxError, iTotalEps, jTotalEps, xTotalEps, yTotalEps, task.epsMax, task.countSteps);
+            str_w.Text = task.w.ToString();
         }
 
-        private void button4_Click(object sender, EventArgs e)
+        private void МетодМинимальныхНевязокToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            double eps = Convert.ToDouble(str_eps.Text);
-            int nmax = Convert.ToInt32(str_nmax.Text);
-            int n = Convert.ToInt32(str_n.Text);
-            int m = Convert.ToInt32(str_m.Text);
+            InitMethodParameters();
 
-            byte initApprx = 3;
-            if (is_inter_x.Checked) initApprx = 1;
-            else if (is_inter_y.Checked) initApprx = 2;
+            DirichletTask task = new TestTask(-1.0, 0.0, 0.0, 1.0, n, m, eps, nmax, initApprx);
+            task.MinimumResidualsMethod();
 
-            MainTaskMRM task = new MainTaskMRM(-1.0, 0.0, 0.0, 1.0, n, m, eps, nmax, initApprx);
-            MainTaskMRM task2 = new MainTaskMRM(-1.0, 0.0, 0.0, 1.0, 2 * n, 2 * m, eps, nmax, initApprx);
-            task.Solve();
-            task2.Solve();
+            int nrows = m + 2;
+            int ncolumns = n + 3;
+            ConstructTable(ref ncolumns, ref nrows);
+            WriteXYValueToTable(-1.0, 0.0, 0.0, 1.0, n, m);
 
             if (is_u.Checked)
             {
-                int nrows = 2 * m + 2;
-                int ncolumns = 2 * n + 3;
-                ConstructTable(ref ncolumns, ref nrows);
-                WriteXYValueToTable(-1.0, 0.0, 0.0, 1.0, n, m);
-
-                for (int i = 1; i < nrows - 1; i++)
-                {
-                    for (int j = 2; j < ncolumns; j++)
-                    {
-                        int ii = Convert.ToInt32(dataGridView1.Columns[j].Name);
-                        int jj = Convert.ToInt32(dataGridView1.Rows[i].Cells[0].Value);
-                        dataGridView1.Rows[i].Cells[j].Value = task2.v[ii, jj];
-                    }
-                }
+                InitUTable(nrows, ncolumns, ref task);
             }
             else if (is_v.Checked)
             {
-                int nrows = m + 2;
-                int ncolumns = n + 3;
-                ConstructTable(ref ncolumns, ref nrows);
-                WriteXYValueToTable(-1.0, 0.0, 0.0, 1.0, n, m);
-
-                for (int i = 1; i < nrows - 1; i++)
-                {
-                    for (int j = 2; j < ncolumns; j++)
-                    {
-                        int ii = Convert.ToInt32(dataGridView1.Columns[j].Name);
-                        int jj = Convert.ToInt32(dataGridView1.Rows[i].Cells[0].Value);
-                        dataGridView1.Rows[i].Cells[j].Value = task.v[ii, jj];
-                    }
-                }
+                InitVTable(nrows, ncolumns, ref task);
             }
             else if (is_diff.Checked)
             {
-                int nrows = m + 2;
-                int ncolumns = n + 3;
+                InitTestDifferenceTable(nrows, ncolumns, ref task);
+            }
+
+            int iTotalEps = -1, jTotalEps = -1;
+            double maxError = CalculateTestError(ref task, ref iTotalEps, ref jTotalEps);
+
+            double xTotalEps = a + iTotalEps * (b - a) / n;
+            double yTotalEps = c + jTotalEps * (d - c) / m;
+
+            WriteResults(test, maxError, iTotalEps, jTotalEps, xTotalEps, yTotalEps, task.epsMax, task.countSteps);
+        }
+
+        private void МетоВерхнейРелаксацииToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            InitMethodParameters();
+
+            DirichletTask task = new MainTask(-1.0, 0.0, 0.0, 1.0, n, m, eps, nmax, initApprx, w);
+            DirichletTask task2 = new MainTask(-1.0, 0.0, 0.0, 1.0, 2 * n, 2 * m, eps, nmax, initApprx, w);
+            task.OverRelaxationMethod();
+            task2.OverRelaxationMethod();
+
+            int nrows = m + 2;
+            int ncolumns = n + 3;
+
+            if (is_u.Checked)
+            {
+                nrows = 2 * m + 2;
+                ncolumns = 2 * n + 3;
+                ConstructTable(ref ncolumns, ref nrows);
+                WriteXYValueToTable(a, b, c, d, n, m);
+                InitVTable(nrows, ncolumns, ref task2);
+            }
+            else if (is_v.Checked)
+            {
+                ConstructTable(ref ncolumns, ref nrows);
+                WriteXYValueToTable(a, b, c, d, n, m);
+                InitUTable(nrows, ncolumns, ref task);
+            }
+            else if (is_diff.Checked)
+            {
+                ConstructTable(ref ncolumns, ref nrows);
+                WriteXYValueToTable(a, b, c, d, n, m);
+                InitMainDifferenceTable(nrows, ncolumns, ref task, ref task2);
+            }
+
+
+            int iTotalEps = -1, jTotalEps = -1;
+            double maxError = CalculateMainError(ref task, ref task2, ref iTotalEps, ref jTotalEps);
+
+            double xTotalEps = a + iTotalEps * (b - a) / n;
+            double yTotalEps = c + jTotalEps * (d - c) / m;
+
+            WriteResults(test, maxError, iTotalEps, jTotalEps, xTotalEps, yTotalEps, task.epsMax, task.countSteps);
+            str_w.Text = task.w.ToString();
+        }
+
+
+        private void МетодМинимальныхНевязокToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            InitMethodParameters();
+
+            DirichletTask task = new MainTask(-1.0, 0.0, 0.0, 1.0, n, m, eps, nmax, initApprx);
+            DirichletTask task2 = new MainTask(-1.0, 0.0, 0.0, 1.0, 2 * n, 2 * m, eps, nmax, initApprx);
+            task.MinimumResidualsMethod();
+            task2.MinimumResidualsMethod();
+
+            int nrows = m + 2;
+            int ncolumns = n + 3;
+
+            if (is_u.Checked)
+            {
+                nrows = 2 * m + 2;
+                ncolumns = 2 * n + 3;
                 ConstructTable(ref ncolumns, ref nrows);
                 WriteXYValueToTable(-1.0, 0.0, 0.0, 1.0, n, m);
-
-                for (int i = 1; i < nrows - 1; i++)
-                {
-                    for (int j = 2; j < ncolumns; j++)
-                    {
-                        int ii = Convert.ToInt32(dataGridView1.Columns[j].Name);
-                        int jj = Convert.ToInt32(dataGridView1.Rows[i].Cells[0].Value);
-                        dataGridView1.Rows[i].Cells[j].Value = Math.Abs(task2.v[ii * 2, jj * 2] - task.v[ii, jj]);
-                    }
-                }
+                InitVTable(nrows, ncolumns, ref task2);
             }
-
-            List<double> errors = new List<double>();
-            for (int i = 1; i < n; i++)
+            else if (is_v.Checked)
             {
-                for (int j = 1; j < m; j++)
-                {
-                    errors.Add(Math.Abs(task2.v[i * 2, j * 2] - task.v[i, j]));
-                }
+                ConstructTable(ref ncolumns, ref nrows);
+                WriteXYValueToTable(-1.0, 0.0, 0.0, 1.0, n, m);
+                InitVTable(nrows, ncolumns, ref task);
             }
-            double maxError = errors.Max();
+            else if (is_diff.Checked)
+            {
+                ConstructTable(ref ncolumns, ref nrows);
+                WriteXYValueToTable(-1.0, 0.0, 0.0, 1.0, n, m);
+                InitMainDifferenceTable(nrows, ncolumns, ref task, ref task2);
+            }
 
-            label_error.Text = "Основная задача быда решена с точностью: " +
-                "max|v2[i][j] - v[i][j]| = " + maxError.ToString();
+            int iTotalEps = -1, jTotalEps = -1;
+            double maxError = CalculateMainError(ref task, ref task2, ref iTotalEps, ref jTotalEps);
 
-            label_eps.Text = "Достигнутая точность итерационного метода: " + task.epsMax;
+            double xTotalEps = a + iTotalEps * (b - a) / n;
+            double yTotalEps = c + jTotalEps * (d - c) / m;
 
-            label_niter.Text = "На решение затрачено" + task.countSteps + " итераций";
+            WriteResults(test, maxError, iTotalEps, jTotalEps, xTotalEps, yTotalEps, task.epsMax, task.countSteps);
+            str_w.Text = task.w.ToString();
+        }
 
-            label_w.Text = " ";
+        private void МетодСопряженногоГрадиентаToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            InitMethodParameters();
+
+            DirichletTask task = new TestTask(-1.0, 0.0, 0.0, 1.0, n, m, eps, nmax, initApprx);
+            task.ConjugateGradientMethod();
+
+            int nrows = m + 2;
+            int ncolumns = n + 3;
+            ConstructTable(ref ncolumns, ref nrows);
+            WriteXYValueToTable(-1.0, 0.0, 0.0, 1.0, n, m);
+
+            if (is_u.Checked)
+            {
+                InitUTable(nrows, ncolumns, ref task);
+            }
+            else if (is_v.Checked)
+            {
+                InitVTable(nrows, ncolumns, ref task);
+            }
+            else if (is_diff.Checked)
+            {
+                InitTestDifferenceTable(nrows, ncolumns, ref task);
+            }
+
+            int iTotalEps = -1, jTotalEps = -1;
+            double maxError = CalculateTestError(ref task, ref iTotalEps, ref jTotalEps);
+
+            double xTotalEps = a + iTotalEps * (b - a) / n;
+            double yTotalEps = c + jTotalEps * (d - c) / m;
+
+            WriteResults(test, maxError, iTotalEps, jTotalEps, xTotalEps, yTotalEps, task.epsMax, task.countSteps);
         }
     }
 }
+
