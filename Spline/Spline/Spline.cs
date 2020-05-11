@@ -52,11 +52,6 @@ namespace Spline
         }
 
 
-        double B(int k) // return B[k], where B: Ax = B
-        {
-            return 3.0 * (F(x0 + h * (k + 2)) + F(x0 + h * k)) / h;
-        }
-
         double f(int k)
         {
             return (F(x0 + h * k) - F(x0 + h * (k - 1))) / h;
@@ -81,39 +76,9 @@ namespace Spline
             }
             c[0] = 0.0;
         }
-        void OldInitC()
-        {
-            int N = n - 1;
-            double[] alphai = new double[N - 1];
-            double[] betai = new double[N];
-            alphai[0] = -0.5;
-            betai[0] = B(2) / (2 * h);
-            for (int i = 1; i < N - 1; i++)
-            {
-                double yi = 2.0 * h + h * alphai[i - 1];
-                alphai[i] = -h / yi;
-                betai[i] = (B(i + 2) - h * betai[i - 1]) / yi;
-            }
-            double yn = h + 2 * h * alphai[N - 2];
-            betai[N - 1] = (B(n) - h * betai[N - 2]) / yn;
-            double[] c1cn = new double[N];
-            c1cn[N - 1] = betai[N - 1];
-            for (int i = N - 2; i > -1; i--)
-            {
-                c1cn[i] = alphai[i] * c1cn[i + 1] + betai[i];
-            }
-            c = new double[n + 1];
-            c[0] = 0.0;
-            for (int i = 1; i < n; i++)
-            {
-                c[i] = c1cn[i - 1]; 
-            }
-            c[n] = 0.0;
-        }
 
         void InitD()
         {
-            // checked
             d = new double[n + 1];
             for (int i = 1; i < n + 1; i++)
             {
@@ -124,7 +89,6 @@ namespace Spline
 
         void InitB()
         {   
-            // checked
             b = new double[n + 1];
             for (int i = 1; i < n + 1; i++)
             {
@@ -137,7 +101,6 @@ namespace Spline
 
         void InitA()
         {
-            // checked 
             a = new double[n + 1];
             for (int i = 0; i < n + 1; i++)
             {
