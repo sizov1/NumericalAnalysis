@@ -51,6 +51,22 @@ namespace Spline
             return  b[k] + 2.0 * c[k] * (x - xk) + 3.0 * d[k] * (x - xk) * (x - xk);               
         }
 
+        public double d2S(double x)
+        {
+            int k = 0;
+            double xcurr = x0;
+            while (x > xcurr)
+            {
+                k++;
+                xcurr += h;
+            }
+            double xk = x0 + h * k;
+            if (k == 0) {
+                return 2.0 * c[1] + 6.0 * d[1] * (x - xk);
+            }
+            return 2.0 * c[k] + 6.0 * d[k] * (x - xk);
+        }
+
 
         double f(int k)
         {
@@ -61,12 +77,12 @@ namespace Spline
         {
             double[] deltak = new double[n - 1];
             double[] lambdak = new double[n - 1];
-            deltak[0] = 0.25;
+            deltak[0] = -0.25;
             lambdak[0] = (3 * f(2) - 3 * f(1)) / (4 * h); 
             for (int k = 2; k < n; k++)
             {
-                deltak[k - 1] = -1.0 / (4.0 + deltak[k - 1]);
-                lambdak[k - 1] = (3 * f(k) - 3 * f(k - 1) - h * lambdak[k - 2]);
+                deltak[k - 1] = -1.0 / (4.0 + deltak[k - 2]);
+                lambdak[k - 1] = (3 * f(k) - 3 * f(k - 1) - h * lambdak[k - 2]) / (4.0 * h  + h * deltak[k - 2]);
             }
             c = new double[n + 1];
             c[n] = 0.0;
@@ -154,6 +170,52 @@ namespace Spline
             {
                 return -6 * x + 6;
             }
+        }
+    }
+
+    class Main : Spline
+    {
+        public Main(int _n) : base(_n)
+        {
+            x0 = 0.0; xn = Math.PI;
+            h = Math.Abs(xn - x0) / (double)n;
+        }
+
+        public override double F(double x)
+        {
+            return Math.Cos(x * x / 4.0);
+        }
+        public override double dF(double x)
+        {
+            return -Math.Sin(x * x / 4.0) * 0.5 * x;
+        }
+        public override double d2F(double x)
+        {
+            return Math.Cos(x * x / 4.0) * 0.25 * x * x 
+                + Math.Sin(x * x / 4.0) * 0.5;
+        }
+    }
+
+    class Osscilate : Spline
+    {
+        public Osscilate(int _n) : base(_n)
+        {
+            x0 = 0.0; xn = Math.PI;
+            h = Math.Abs(xn - x0) / (double)n;
+        }
+
+        public override double F(double x)
+        {
+            return Math.Cos(x * x / 4.0) + Math.Cos(10 * x);
+        }
+        public override double dF(double x)
+        {
+            return -Math.Sin(x * x / 4.0) * 0.5 * x - 10 * Math.Sin(10 * x);
+        }
+        public override double d2F(double x)
+        {
+            return Math.Cos(x * x / 4.0) * 0.25 * x * x
+                + Math.Sin(x * x / 4.0) * 0.5 - 100 * Math.Cos(10 * x);
         }
     }
 

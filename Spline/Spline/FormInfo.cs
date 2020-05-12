@@ -21,12 +21,12 @@ namespace Spline
         {
             sn.Text = inf.n.ToString();
             strN.Text = inf.N.ToString();
-            stre.Text = Math.Round(inf.e, 8).ToString("E");
-            strde.Text = Math.Round(inf.de, 8).ToString("E");
-            strd2e.Text = Math.Round(inf.d2e, 8).ToString("E");
-            strxe.Text = Math.Round(inf.xe, 8).ToString("E");
-            strxde.Text = Math.Round(inf.xde, 8).ToString("E");
-            strxd2e.Text = Math.Round(inf.xd2e, 8).ToString("E");
+            stre.Text = Math.Round(inf.e, 5).ToString("E");
+            strde.Text = Math.Round(inf.de, 5).ToString("E");
+            strd2e.Text = Math.Round(inf.d2e, 5).ToString("E");
+            strxe.Text = Math.Round(inf.xe, 5).ToString("E");
+            strxde.Text = Math.Round(inf.xde, 5).ToString("E");
+            strxd2e.Text = Math.Round(inf.xd2e, 5).ToString("E");
         }
 
     }
