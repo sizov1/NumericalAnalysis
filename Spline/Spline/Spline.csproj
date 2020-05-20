@@ -98,5 +98,8 @@
   <ItemGroup>
     <None Include="Resources\functions.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="ZedGraph.dll" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -30,7 +30,7 @@ namespace Spline
             zedGraphError.GraphPane.XAxis.Title = "x";
             zedGraphdError.GraphPane.XAxis.Title = "x";
             zedGraphFS.GraphPane.YAxis.Title = "F(x), S(x)";
-            zedGraphdFdS.GraphPane.YAxis.Title = "F'(x), S'(x)";
+            zedGraphdFdS.GraphPane.YAxis.Title = "F'(x), S'(x), F''(x), S''(x)";
             zedGraphError.GraphPane.YAxis.Title = "F(x) - S(x)";
             zedGraphdError.GraphPane.YAxis.Title = "F'(x) - S'(x)";
         }
@@ -41,7 +41,6 @@ namespace Spline
             fi.DisplayInfo(inf);
             fi.Show();
         }
-
 
 
         private void button1_Click(object sender, EventArgs e)
@@ -72,7 +71,8 @@ namespace Spline
 
         void SplineCoefficientTable()
         {
-            for(int i = 0; i < n; i++)
+            dataGridView1.Rows.Clear();
+            for (int i = 0; i < n; i++)
             {
                 dataGridView1.Rows.Add();
                 dataGridView1.Rows[i].Cells[0].Value = i.ToString();
@@ -84,7 +84,27 @@ namespace Spline
                 dataGridView1.Rows[i].Cells[6].Value = spline.d[i].ToString();
             }
         }
-
+        void SplineValuesTable()
+        {
+            dataGridView2.Rows.Clear();
+            for (int i = 0; i < N; i++)
+            {
+                double xk = x0 + i * hN;
+                double Fxk = spline.F(xk);
+                double Sxk = spline.S(xk);
+                double dFxk = spline.dF(xk);
+                double dSxk = spline.dS(xk);
+                dataGridView2.Rows.Add();
+                dataGridView2.Rows[i].Cells[0].Value = i.ToString();
+                dataGridView2.Rows[i].Cells[1].Value = xk.ToString();
+                dataGridView2.Rows[i].Cells[2].Value = Fxk.ToString();
+                dataGridView2.Rows[i].Cells[3].Value = Sxk.ToString();
+                dataGridView2.Rows[i].Cells[4].Value = Math.Abs(Fxk - Sxk).ToString("E");
+                dataGridView2.Rows[i].Cells[5].Value = dFxk.ToString();
+                dataGridView2.Rows[i].Cells[6].Value = dSxk.ToString();
+                dataGridView2.Rows[i].Cells[7].Value = Math.Abs(dFxk - dSxk).ToString("E");
+            }
+        }
         void CalcErrorsSpline()
         {
             for (int i = 0; i < N; i++)
@@ -115,36 +135,33 @@ namespace Spline
             ZedGraph.PointPairList SkList = new ZedGraph.PointPairList();
             ZedGraph.PointPairList dFkList = new ZedGraph.PointPairList();
             ZedGraph.PointPairList dSkList = new ZedGraph.PointPairList();
+            ZedGraph.PointPairList d2FkList = new ZedGraph.PointPairList();
+            ZedGraph.PointPairList d2SkList = new ZedGraph.PointPairList();
             ZedGraph.PointPairList eList = new ZedGraph.PointPairList();
             ZedGraph.PointPairList deList = new ZedGraph.PointPairList();
 
-            for (int i = 0; i < N; i++)
+            for (int i = 0; i < N + 1; i++)
             {
-                if (i % 3 == 0)
+                if (i % 3 == 0 && i != 0 && i != N)
                     continue;
                 double xk = x0 + i * hN;
                 double Fk = spline.F(xk);
                 double Sk = spline.S(xk);
                 double dFk = spline.dF(xk);
                 double dSk = spline.dS(xk);
+                double d2Fk = spline.d2F(xk);
+                double d2Sk = spline.d2S(xk);
                 double e = Fk - Sk;
                 double de = dFk - dSk;
                 FkList.Add(xk, Fk);
                 SkList.Add(xk, Sk);
                 dFkList.Add(xk, dFk);
                 dSkList.Add(xk, dSk);
+                d2FkList.Add(xk, d2Fk);
+                d2SkList.Add(xk, d2Sk);
                 eList.Add(xk, e);
                 deList.Add(xk, de);
             }
-
-            zedGraphFS.GraphPane.XAxis.Min = x0;
-            zedGraphFS.GraphPane.XAxis.Max = xn;
-            zedGraphdFdS.GraphPane.XAxis.Min = x0;
-            zedGraphdFdS.GraphPane.XAxis.Max = xn;
-            zedGraphError.GraphPane.XAxis.Min = x0;
-            zedGraphError.GraphPane.XAxis.Max = xn;
-            zedGraphdError.GraphPane.XAxis.Min = x0;
-            zedGraphdError.GraphPane.XAxis.Max = xn;
 
             zedGraphFS.GraphPane.CurveList.Clear();
             zedGraphdFdS.GraphPane.CurveList.Clear();
@@ -155,11 +172,10 @@ namespace Spline
             zedGraphFS.GraphPane.AddCurve("S(x)", SkList, Color.FromName("Red"), ZedGraph.SymbolType.None);
             zedGraphdFdS.GraphPane.AddCurve("F'(x)", dFkList, Color.FromName("Blue"), ZedGraph.SymbolType.None);
             zedGraphdFdS.GraphPane.AddCurve("S'(x)", dSkList, Color.FromName("Red"), ZedGraph.SymbolType.None);
+            zedGraphdFdS.GraphPane.AddCurve("F''(x)", d2FkList, Color.FromName("Green"), ZedGraph.SymbolType.None);
+            zedGraphdFdS.GraphPane.AddCurve("S''(x)", d2SkList, Color.FromName("Black"), ZedGraph.SymbolType.None);
             ZedGraph.LineItem eCurve = zedGraphError.GraphPane.AddCurve("F(x) - S(x)", eList, Color.FromName("Blue"), ZedGraph.SymbolType.None);
             ZedGraph.LineItem deCurve = zedGraphdError.GraphPane.AddCurve("F'(x) - S'(x)", deList, Color.FromName("Blue"), ZedGraph.SymbolType.None);
-
-//            eCurve.Line.IsVisible = false;
-//            deCurve.Line.IsVisible = false;
 
             zedGraphFS.AxisChange();
             zedGraphdFdS.AxisChange();
@@ -171,25 +187,6 @@ namespace Spline
             zedGraphError.Invalidate();
             zedGraphdError.Invalidate();
         }
-        void SplineValuesTable()
-        {
-            for (int i = 0; i < N; i++)
-            {
-                double xk = x0 + i * hN;
-                double Fxk = spline.F(xk);
-                double Sxk = spline.S(xk);
-                double dFxk = spline.dF(xk);
-                double dSxk = spline.dS(xk);
-                dataGridView2.Rows.Add();
-                dataGridView2.Rows[i].Cells[0].Value = i.ToString();
-                dataGridView2.Rows[i].Cells[1].Value = xk.ToString();
-                dataGridView2.Rows[i].Cells[2].Value = Fxk.ToString();
-                dataGridView2.Rows[i].Cells[3].Value = Sxk.ToString();
-                dataGridView2.Rows[i].Cells[4].Value = Math.Abs(Fxk - Sxk).ToString("E");
-                dataGridView2.Rows[i].Cells[5].Value = dFxk.ToString();
-                dataGridView2.Rows[i].Cells[6].Value = dSxk.ToString();
-                dataGridView2.Rows[i].Cells[7].Value = Math.Abs(dFxk - dSxk).ToString("E");
-            }
-        }
+
     }
 }

@@ -27,15 +27,14 @@ namespace Spline
         public double S(double x)
         {
             int k = 0;
-            double xcurr = x0;
-            while (x > xcurr)
+            double xcurr = x0, eps = 1e-10;
+            while (x - xcurr > eps)
             {
                 k++;
-                xcurr += h;
+                xcurr = x0 + k * h;
             }
-            double xk = x0 + h * k;
-            return a[k] + b[k] * (x - xk) + c[k] * (x - xk) * (x - xk) +
-                d[k] * (x - xk) * (x - xk) * (x - xk);
+            return a[k] + b[k] * (x - xcurr) + c[k] * (x - xcurr) * (x - xcurr) +
+                d[k] * (x - xcurr) * (x - xcurr) * (x - xcurr);
         }
 
         public double dS(double x)
@@ -45,10 +44,9 @@ namespace Spline
             while (x > xcurr)
             {
                 k++;
-                xcurr += h;
+                xcurr = x0 + k * h;
             }
-            double xk = x0 + h * k;
-            return  b[k] + 2.0 * c[k] * (x - xk) + 3.0 * d[k] * (x - xk) * (x - xk);               
+            return  b[k] + 2.0 * c[k] * (x - xcurr) + 3.0 * d[k] * (x - xcurr) * (x - xcurr);               
         }
 
         public double d2S(double x)
@@ -58,13 +56,9 @@ namespace Spline
             while (x > xcurr)
             {
                 k++;
-                xcurr += h;
+                xcurr = x0 + k * h;
             }
-            double xk = x0 + h * k;
-            if (k == 0) {
-                return 2.0 * c[1] + 6.0 * d[1] * (x - xk);
-            }
-            return 2.0 * c[k] + 6.0 * d[k] * (x - xk);
+            return 2.0 * c[k] + 6.0 * d[k] * (x - xcurr);
         }
 
 
@@ -82,7 +76,8 @@ namespace Spline
             for (int k = 2; k < n; k++)
             {
                 deltak[k - 1] = -1.0 / (4.0 + deltak[k - 2]);
-                lambdak[k - 1] = (3 * f(k) - 3 * f(k - 1) - h * lambdak[k - 2]) / (4.0 * h  + h * deltak[k - 2]);
+                lambdak[k - 1] = (3 * f(k + 1) - 3 * f(k) - h * lambdak[k - 2]) 
+                    / (4.0 * h  + h * deltak[k - 2]);
             }
             c = new double[n + 1];
             c[n] = 0.0;
@@ -108,7 +103,7 @@ namespace Spline
             b = new double[n + 1];
             for (int i = 1; i < n + 1; i++)
             {
-                b[i] = (F(x0 + h * i) - F(x0 + h * (i - 1))) / h;
+                b[i] = f(i);
                 b[i] += 2.0 * h * c[i] / 3.0;
                 b[i] += h * c[i - 1] / 3.0;
             }
@@ -151,23 +146,17 @@ namespace Spline
         }
         public override double dF(double x)
         {
-            if (x < 0.0)
-            {
+            if (x < 0.0) {
                 return 3 * x * x + 6 * x;
-            }
-            else
-            {
+            } else {
                 return -3 * x * x + 6 * x;
             }
         }
         public override double d2F(double x)
         {
-            if (x < 0.0)
-            {
+            if (x < 0.0) {
                 return 6 * x + 6;
-            }
-            else
-            {
+            } else {
                 return -6 * x + 6;
             }
         }
