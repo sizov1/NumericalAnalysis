@@ -101,19 +101,17 @@ namespace OverRelaxation
             while (!stop) {
                 epsMax = 0.0;
                 for (int i = 1, j = 1; i < n && j < m; GetNextInnerXYIndex(ref i, ref j)) {
-                    {
-                        double oldValue = v[i, j];
-                        double newValue = -w * (h2 * (v[i + 1, j] + v[i - 1, j]) +
+                    double oldValue = v[i, j];
+                    double newValue = -w * (h2 * (v[i + 1, j] + v[i - 1, j]) +
                                                   t2 * (v[i, j + 1] + v[i, j - 1]));
-                        newValue += (1 - w) * a2 * v[i, j] + w * f(a + i * h, c + j * t);
-                        newValue /= a2;
-                        epsCurr = Math.Abs(oldValue - newValue);
-                        if (epsCurr > epsMax) epsMax = epsCurr;
-                        v[i, j] = newValue;
-                    }
-                    countSteps++;
-                    if (epsMax < eps || countSteps >= nmax) stop = true;
+                    newValue += (1 - w) * a2 * v[i, j] + w * f(a + i * h, c + j * t);
+                    newValue /= a2;
+                    epsCurr = Math.Abs(oldValue - newValue);
+                    if (epsCurr > epsMax) epsMax = epsCurr;
+                    v[i, j] = newValue;
                 }
+                countSteps++;
+                if (epsMax < eps || countSteps >= nmax) stop = true;
             }
         }
 
