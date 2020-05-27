@@ -1,0 +1,10 @@
+C:\Users\Kirill\Documents\numerical-analysis\IterationMethod\OverRelaxation\bin\Release\OverRelaxation.exe.config
+C:\Users\Kirill\Documents\numerical-analysis\IterationMethod\OverRelaxation\bin\Release\OverRelaxation.exe
+C:\Users\Kirill\Documents\numerical-analysis\IterationMethod\OverRelaxation\bin\Release\OverRelaxation.pdb
+C:\Users\Kirill\Documents\numerical-analysis\IterationMethod\OverRelaxation\obj\Release\IterationMethods.csprojAssemblyReference.cache
+C:\Users\Kirill\Documents\numerical-analysis\IterationMethod\OverRelaxation\obj\Release\OverRelaxation.Form1.resources
+C:\Users\Kirill\Documents\numerical-analysis\IterationMethod\OverRelaxation\obj\Release\OverRelaxation.Properties.Resources.resources
+C:\Users\Kirill\Documents\numerical-analysis\IterationMethod\OverRelaxation\obj\Release\IterationMethods.csproj.GenerateResource.cache
+C:\Users\Kirill\Documents\numerical-analysis\IterationMethod\OverRelaxation\obj\Release\IterationMethods.csproj.CoreCompileInputs.cache
+C:\Users\Kirill\Documents\numerical-analysis\IterationMethod\OverRelaxation\obj\Release\OverRelaxation.exe
+C:\Users\Kirill\Documents\numerical-analysis\IterationMethod\OverRelaxation\obj\Release\OverRelaxation.pdb
