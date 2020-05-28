@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.IO;
 using System.Linq;
-using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -18,7 +15,7 @@ namespace OverRelaxation
         protected double h, t;
         protected int n, m, nmax;
         public int countSteps;
-        public double eps, epsMax;
+        public double eps, epsMax, rmax;
         public double w;
         byte initAprx; // 1 - интер по X; 2 - по Y; 3 - нулевое
 
@@ -59,6 +56,24 @@ namespace OverRelaxation
         public abstract double GetValue(int i, int j);
         public abstract void GetNextXYIndex(ref int i, ref int j);
         public abstract void GetNextInnerXYIndex(ref int i, ref int j);
+
+        public double RMax()
+        {
+            double rmax = 0.0;
+            r = new double[n + 1, m + 1];
+            for (int i = 1, j = 1; i < n && j < m; GetNextInnerXYIndex(ref i, ref j))
+            {
+                r[i, j] = v[i, j] * a2 + h2 * (v[i - 1, j] + v[i + 1, j]) + t2 * (v[i, j - 1] + v[i, j + 1])
+                    - f(a + i * h, c + j * t);
+                if (Math.Abs(r[i, j]) > rmax)
+                {
+                    rmax = r[i, j];
+                }
+            }
+
+            return rmax;
+        }
+
         public abstract double f(double x, double y);
 
         protected abstract void InitBorderValue();
@@ -99,7 +114,7 @@ namespace OverRelaxation
                 ZeroInitialValue();
         }
 
-        public double OverRelaxationMethod()
+        public void OverRelaxationMethod()
         {
             InitBorderValue();
             InitialValue();
@@ -114,43 +129,20 @@ namespace OverRelaxation
             while (!stop)
             {
                 epsMax = 0.0;
-                for (int i = 1; i < n; i++)
+                for (int i = 1, j = 1; i < n && j < m; GetNextInnerXYIndex(ref i, ref j))
                 {
-                    for (int j = 1; j < m; j++)
-                    {
-                        double oldValue = v[i, j];
-                        double newValue = -w * (h2 * (v[i + 1, j] + v[i - 1, j]) +
-                                                      t2 * (v[i, j + 1] + v[i, j - 1]));
-                        newValue += (1 - w) * a2 * v[i, j] + w * f(a + i * h, c + j * t);
-                        newValue /= a2;
-                        epsCurr = Math.Abs(oldValue - newValue);
-                        if (epsCurr > epsMax) epsMax = epsCurr;
-                        v[i, j] = newValue;
-                    }
+                    double oldValue = v[i, j];
+                    double newValue = -w * (h2 * (v[i + 1, j] + v[i - 1, j]) +
+                                              t2 * (v[i, j + 1] + v[i, j - 1]));
+                    newValue += (1 - w) * a2 * v[i, j] + w * f(a + i * h, c + j * t);
+                    newValue /= a2;
+                    epsCurr = Math.Abs(oldValue - newValue);
+                    if (epsCurr > epsMax) epsMax = epsCurr;
+                    v[i, j] = newValue;
                 }
                 countSteps++;
                 if (epsMax < eps || countSteps >= nmax) stop = true;
-                Console.WriteLine(epsMax.ToString());
             }
-
-
-            double Rmax = 0.0;
-            r = new double[n + 1, m + 1];
-            for (int i = 1; i < n; i++)
-            {
-                for (int j = 1; j < m; j++)
-                {
-                    r[i, j] = (v[i, j] * a2 + h2 * (v[i - 1, j] + v[i + 1, j]) +
-                        t2 * (v[i, j - 1] + v[i, j + 1]) - f(a + i * h, c + j * t));
-                    if (Math.Abs(r[i, j]) > Rmax)
-                    {
-                        Rmax = r[i, j];
-                    }
-                }
-            }
-
-            return Rmax;
-
         }
 
         protected double CalculateParameter(double h, double t)
@@ -191,22 +183,28 @@ namespace OverRelaxation
                 epsMax = 0.0;
 
                 //невязка на текущей итерации
-                for (int i = 1, j = 1; i < n && j < m; GetNextInnerXYIndex(ref i, ref j))
+                for (int i = 1; i < n; i++)
                 {
-                    r[i, j] = v[i, j] * a2 + h2 * (v[i - 1, j] + v[i + 1, j]) + t2 * (v[i, j - 1] + v[i, j + 1])
-                        - f(a + i * h, c + j * t);
+                    for (int j = 1; j < m; j++)
+                    {
+                        r[i, j] = v[i, j] * a2 + h2 * (v[i - 1, j] + v[i + 1, j]) + t2 * (v[i, j - 1] + v[i, j + 1])
+                            - f(a + i * h, c + j * t);
+                    }
                 }
 
                 ts = CalculateParameter(h, t);
 
                 //обновление компонент
-                for (int i = 1, j = 1; i < n && j < m; GetNextInnerXYIndex(ref i, ref j))
+                for (int i = 1; i < n; i++)
                 {
-                    double oldValue = v[i, j];
-                    double newValue = v[i, j] - ts * r[i, j];
-                    epsCurr = Math.Abs(oldValue - newValue);
-                    if (epsCurr > epsMax) epsMax = epsCurr;
-                    v[i, j] = newValue;
+                    for (int j = 1; j < m; j++)
+                    {
+                        double oldValue = v[i, j];
+                        double newValue = v[i, j] - ts * r[i, j];
+                        epsCurr = Math.Abs(oldValue - newValue);
+                        if (epsCurr > epsMax) epsMax = epsCurr;
+                        v[i, j] = newValue;
+                    }
                 }
                 countSteps++;
                 if (epsMax < eps || countSteps >= nmax) stop = true;

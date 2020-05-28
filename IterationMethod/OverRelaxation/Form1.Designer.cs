@@ -42,9 +42,11 @@
             this.is_inter_y = new System.Windows.Forms.RadioButton();
             this.is_inter_x = new System.Windows.Forms.RadioButton();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.is_diff = new System.Windows.Forms.RadioButton();
-            this.is_u = new System.Windows.Forms.RadioButton();
-            this.is_v = new System.Windows.Forms.RadioButton();
+            this.difmainbut = new System.Windows.Forms.Button();
+            this.diftestbut = new System.Windows.Forms.Button();
+            this.v2mainbut = new System.Windows.Forms.Button();
+            this.utestbut = new System.Windows.Forms.Button();
+            this.vbut = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.label_w = new System.Windows.Forms.Label();
@@ -52,6 +54,8 @@
             this.userValue = new System.Windows.Forms.RadioButton();
             this.optimalValue = new System.Windows.Forms.RadioButton();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.labelrmax2 = new System.Windows.Forms.Label();
+            this.labelrmax = new System.Windows.Forms.Label();
             this.labelXYTotalEps = new System.Windows.Forms.Label();
             this.labelEps = new System.Windows.Forms.Label();
             this.labelNIter = new System.Windows.Forms.Label();
@@ -65,11 +69,8 @@
             this.основнаяЗадачаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.метоВерхнейРелаксацииToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.методМинимальныхНевязокToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.методСопряженныхГрадиентовToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.тестоваяЗадачаНаНепрямоугольнойОбластиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.убратьСправкуToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.показатьVToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.показатьV2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.показатьEToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -85,7 +86,7 @@
             this.pictureBox1.Location = new System.Drawing.Point(16, 46);
             this.pictureBox1.Margin = new System.Windows.Forms.Padding(4);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(288, 178);
+            this.pictureBox1.Size = new System.Drawing.Size(296, 178);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
@@ -115,7 +116,7 @@
             this.str_n.Location = new System.Drawing.Point(199, 252);
             this.str_n.Margin = new System.Windows.Forms.Padding(4);
             this.str_n.Name = "str_n";
-            this.str_n.Size = new System.Drawing.Size(105, 22);
+            this.str_n.Size = new System.Drawing.Size(113, 22);
             this.str_n.TabIndex = 3;
             this.str_n.Text = "10";
             // 
@@ -124,7 +125,7 @@
             this.str_m.Location = new System.Drawing.Point(199, 289);
             this.str_m.Margin = new System.Windows.Forms.Padding(4);
             this.str_m.Name = "str_m";
-            this.str_m.Size = new System.Drawing.Size(105, 22);
+            this.str_m.Size = new System.Drawing.Size(113, 22);
             this.str_m.TabIndex = 4;
             this.str_m.Text = "10";
             // 
@@ -143,7 +144,7 @@
             this.str_eps.Location = new System.Drawing.Point(199, 326);
             this.str_eps.Margin = new System.Windows.Forms.Padding(4);
             this.str_eps.Name = "str_eps";
-            this.str_eps.Size = new System.Drawing.Size(105, 22);
+            this.str_eps.Size = new System.Drawing.Size(113, 22);
             this.str_eps.TabIndex = 6;
             this.str_eps.Text = "1e-008";
             // 
@@ -152,7 +153,7 @@
             this.str_nmax.Location = new System.Drawing.Point(199, 363);
             this.str_nmax.Margin = new System.Windows.Forms.Padding(4);
             this.str_nmax.Name = "str_nmax";
-            this.str_nmax.Size = new System.Drawing.Size(105, 22);
+            this.str_nmax.Size = new System.Drawing.Size(113, 22);
             this.str_nmax.TabIndex = 7;
             this.str_nmax.Text = "100000";
             // 
@@ -175,7 +176,7 @@
             this.groupBox1.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBox1.Size = new System.Drawing.Size(285, 113);
+            this.groupBox1.Size = new System.Drawing.Size(293, 113);
             this.groupBox1.TabIndex = 9;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Начальное приближение";
@@ -218,62 +219,78 @@
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.is_diff);
-            this.groupBox2.Controls.Add(this.is_u);
-            this.groupBox2.Controls.Add(this.is_v);
+            this.groupBox2.Controls.Add(this.difmainbut);
+            this.groupBox2.Controls.Add(this.diftestbut);
+            this.groupBox2.Controls.Add(this.v2mainbut);
+            this.groupBox2.Controls.Add(this.utestbut);
+            this.groupBox2.Controls.Add(this.vbut);
             this.groupBox2.Location = new System.Drawing.Point(16, 657);
             this.groupBox2.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBox2.Size = new System.Drawing.Size(288, 126);
+            this.groupBox2.Size = new System.Drawing.Size(296, 177);
             this.groupBox2.TabIndex = 13;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Вывод в таблицу";
             // 
-            // is_diff
+            // difmainbut
             // 
-            this.is_diff.AutoSize = true;
-            this.is_diff.Location = new System.Drawing.Point(8, 80);
-            this.is_diff.Margin = new System.Windows.Forms.Padding(4);
-            this.is_diff.Name = "is_diff";
-            this.is_diff.Size = new System.Drawing.Size(295, 38);
-            this.is_diff.TabIndex = 16;
-            this.is_diff.TabStop = true;
-            this.is_diff.Text = "| u(x,y)  - v(x, y) | \r\n( | v2(x, y) - v(x,y) | для основной задачи)";
-            this.is_diff.UseVisualStyleBackColor = true;
+            this.difmainbut.Location = new System.Drawing.Point(145, 110);
+            this.difmainbut.Name = "difmainbut";
+            this.difmainbut.Size = new System.Drawing.Size(128, 34);
+            this.difmainbut.TabIndex = 5;
+            this.difmainbut.Text = "|v2(x, y)-v(x, y)|";
+            this.difmainbut.UseVisualStyleBackColor = true;
+            this.difmainbut.Click += new System.EventHandler(this.button5_Click);
             // 
-            // is_u
+            // diftestbut
             // 
-            this.is_u.AutoSize = true;
-            this.is_u.Location = new System.Drawing.Point(8, 52);
-            this.is_u.Margin = new System.Windows.Forms.Padding(4);
-            this.is_u.Name = "is_u";
-            this.is_u.Size = new System.Drawing.Size(269, 21);
-            this.is_u.TabIndex = 15;
-            this.is_u.TabStop = true;
-            this.is_u.Text = "u(x,y) (v2(x, y) для основной задачи)";
-            this.is_u.UseVisualStyleBackColor = true;
+            this.diftestbut.Location = new System.Drawing.Point(11, 110);
+            this.diftestbut.Name = "diftestbut";
+            this.diftestbut.Size = new System.Drawing.Size(128, 34);
+            this.diftestbut.TabIndex = 4;
+            this.diftestbut.Text = "|u(x, y)-v(x, y)|";
+            this.diftestbut.UseVisualStyleBackColor = true;
+            this.diftestbut.Click += new System.EventHandler(this.button3_Click);
             // 
-            // is_v
+            // v2mainbut
             // 
-            this.is_v.AutoSize = true;
-            this.is_v.Location = new System.Drawing.Point(8, 23);
-            this.is_v.Margin = new System.Windows.Forms.Padding(4);
-            this.is_v.Name = "is_v";
-            this.is_v.Size = new System.Drawing.Size(63, 21);
-            this.is_v.TabIndex = 14;
-            this.is_v.TabStop = true;
-            this.is_v.Text = "v(x,y)";
-            this.is_v.UseVisualStyleBackColor = true;
+            this.v2mainbut.Location = new System.Drawing.Point(145, 70);
+            this.v2mainbut.Name = "v2mainbut";
+            this.v2mainbut.Size = new System.Drawing.Size(128, 34);
+            this.v2mainbut.TabIndex = 3;
+            this.v2mainbut.Text = "v2(x, y)";
+            this.v2mainbut.UseVisualStyleBackColor = true;
+            this.v2mainbut.Click += new System.EventHandler(this.button4_Click);
+            // 
+            // utestbut
+            // 
+            this.utestbut.Location = new System.Drawing.Point(11, 70);
+            this.utestbut.Name = "utestbut";
+            this.utestbut.Size = new System.Drawing.Size(128, 34);
+            this.utestbut.TabIndex = 1;
+            this.utestbut.Text = "u(x, y)";
+            this.utestbut.UseVisualStyleBackColor = true;
+            this.utestbut.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // vbut
+            // 
+            this.vbut.Location = new System.Drawing.Point(11, 30);
+            this.vbut.Name = "vbut";
+            this.vbut.Size = new System.Drawing.Size(262, 34);
+            this.vbut.TabIndex = 0;
+            this.vbut.Text = "v(x, y)";
+            this.vbut.UseVisualStyleBackColor = true;
+            this.vbut.Click += new System.EventHandler(this.button1_Click);
             // 
             // dataGridView1
             // 
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(312, 47);
+            this.dataGridView1.Location = new System.Drawing.Point(320, 47);
             this.dataGridView1.Margin = new System.Windows.Forms.Padding(4);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersWidth = 51;
-            this.dataGridView1.Size = new System.Drawing.Size(1734, 868);
+            this.dataGridView1.Size = new System.Drawing.Size(1394, 620);
             this.dataGridView1.TabIndex = 14;
             // 
             // groupBox3
@@ -286,7 +303,7 @@
             this.groupBox3.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBox3.Size = new System.Drawing.Size(288, 129);
+            this.groupBox3.Size = new System.Drawing.Size(296, 129);
             this.groupBox3.TabIndex = 15;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Параметр метода верхней релаксации";
@@ -306,7 +323,7 @@
             this.str_w.Location = new System.Drawing.Point(167, 95);
             this.str_w.Margin = new System.Windows.Forms.Padding(4);
             this.str_w.Name = "str_w";
-            this.str_w.Size = new System.Drawing.Size(132, 22);
+            this.str_w.Size = new System.Drawing.Size(121, 22);
             this.str_w.TabIndex = 2;
             // 
             // userValue
@@ -335,19 +352,39 @@
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.labelrmax2);
+            this.groupBox4.Controls.Add(this.labelrmax);
             this.groupBox4.Controls.Add(this.labelXYTotalEps);
             this.groupBox4.Controls.Add(this.labelEps);
             this.groupBox4.Controls.Add(this.labelNIter);
             this.groupBox4.Controls.Add(this.labelIJTotalEps);
             this.groupBox4.Controls.Add(this.labelTotalEps);
-            this.groupBox4.Location = new System.Drawing.Point(327, 680);
+            this.groupBox4.Location = new System.Drawing.Point(320, 687);
             this.groupBox4.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBox4.Size = new System.Drawing.Size(600, 208);
+            this.groupBox4.Size = new System.Drawing.Size(729, 208);
             this.groupBox4.TabIndex = 22;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Результаты работы метода";
+            // 
+            // labelrmax2
+            // 
+            this.labelrmax2.AutoSize = true;
+            this.labelrmax2.Location = new System.Drawing.Point(370, 97);
+            this.labelrmax2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelrmax2.Name = "labelrmax2";
+            this.labelrmax2.Size = new System.Drawing.Size(0, 17);
+            this.labelrmax2.TabIndex = 6;
+            // 
+            // labelrmax
+            // 
+            this.labelrmax.AutoSize = true;
+            this.labelrmax.Location = new System.Drawing.Point(8, 97);
+            this.labelrmax.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelrmax.Name = "labelrmax";
+            this.labelrmax.Size = new System.Drawing.Size(0, 17);
+            this.labelrmax.TabIndex = 5;
             // 
             // labelXYTotalEps
             // 
@@ -405,14 +442,10 @@
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.тестоваяЗадачаToolStripMenuItem,
             this.основнаяЗадачаToolStripMenuItem,
-            this.тестоваяЗадачаНаНепрямоугольнойОбластиToolStripMenuItem,
-            this.убратьСправкуToolStripMenuItem,
-            this.показатьVToolStripMenuItem,
-            this.показатьV2ToolStripMenuItem,
-            this.показатьEToolStripMenuItem});
+            this.тестоваяЗадачаНаНепрямоугольнойОбластиToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1924, 28);
+            this.menuStrip1.Size = new System.Drawing.Size(1741, 28);
             this.menuStrip1.TabIndex = 23;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -451,7 +484,8 @@
             // 
             this.основнаяЗадачаToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.метоВерхнейРелаксацииToolStripMenuItem,
-            this.методМинимальныхНевязокToolStripMenuItem1});
+            this.методМинимальныхНевязокToolStripMenuItem1,
+            this.методСопряженныхГрадиентовToolStripMenuItem});
             this.основнаяЗадачаToolStripMenuItem.Name = "основнаяЗадачаToolStripMenuItem";
             this.основнаяЗадачаToolStripMenuItem.Size = new System.Drawing.Size(143, 24);
             this.основнаяЗадачаToolStripMenuItem.Text = "Основная задача";
@@ -459,16 +493,23 @@
             // метоВерхнейРелаксацииToolStripMenuItem
             // 
             this.метоВерхнейРелаксацииToolStripMenuItem.Name = "метоВерхнейРелаксацииToolStripMenuItem";
-            this.метоВерхнейРелаксацииToolStripMenuItem.Size = new System.Drawing.Size(300, 26);
+            this.метоВерхнейРелаксацииToolStripMenuItem.Size = new System.Drawing.Size(321, 26);
             this.метоВерхнейРелаксацииToolStripMenuItem.Text = "Мето верхней релаксации";
             this.метоВерхнейРелаксацииToolStripMenuItem.Click += new System.EventHandler(this.МетоВерхнейРелаксацииToolStripMenuItem_Click);
             // 
             // методМинимальныхНевязокToolStripMenuItem1
             // 
             this.методМинимальныхНевязокToolStripMenuItem1.Name = "методМинимальныхНевязокToolStripMenuItem1";
-            this.методМинимальныхНевязокToolStripMenuItem1.Size = new System.Drawing.Size(300, 26);
+            this.методМинимальныхНевязокToolStripMenuItem1.Size = new System.Drawing.Size(321, 26);
             this.методМинимальныхНевязокToolStripMenuItem1.Text = "Метод минимальных невязок";
             this.методМинимальныхНевязокToolStripMenuItem1.Click += new System.EventHandler(this.МетодМинимальныхНевязокToolStripMenuItem1_Click);
+            // 
+            // методСопряженныхГрадиентовToolStripMenuItem
+            // 
+            this.методСопряженныхГрадиентовToolStripMenuItem.Name = "методСопряженныхГрадиентовToolStripMenuItem";
+            this.методСопряженныхГрадиентовToolStripMenuItem.Size = new System.Drawing.Size(321, 26);
+            this.методСопряженныхГрадиентовToolStripMenuItem.Text = "Метод сопряженных градиентов";
+            this.методСопряженныхГрадиентовToolStripMenuItem.Click += new System.EventHandler(this.методСопряженныхГрадиентовToolStripMenuItem_Click);
             // 
             // тестоваяЗадачаНаНепрямоугольнойОбластиToolStripMenuItem
             // 
@@ -477,40 +518,12 @@
             this.тестоваяЗадачаНаНепрямоугольнойОбластиToolStripMenuItem.Text = "Тестовая задача на непрямоугольной области";
             this.тестоваяЗадачаНаНепрямоугольнойОбластиToolStripMenuItem.Click += new System.EventHandler(this.ТестоваяЗадачаНаНепрямоугольнойОбластиToolStripMenuItem_Click);
             // 
-            // убратьСправкуToolStripMenuItem
-            // 
-            this.убратьСправкуToolStripMenuItem.Name = "убратьСправкуToolStripMenuItem";
-            this.убратьСправкуToolStripMenuItem.Size = new System.Drawing.Size(131, 24);
-            this.убратьСправкуToolStripMenuItem.Text = "Убрать справку";
-            this.убратьСправкуToolStripMenuItem.Click += new System.EventHandler(this.убратьСправкуToolStripMenuItem_Click);
-            // 
-            // показатьVToolStripMenuItem
-            // 
-            this.показатьVToolStripMenuItem.Name = "показатьVToolStripMenuItem";
-            this.показатьVToolStripMenuItem.Size = new System.Drawing.Size(98, 24);
-            this.показатьVToolStripMenuItem.Text = "Показать v";
-            this.показатьVToolStripMenuItem.Click += new System.EventHandler(this.показатьVToolStripMenuItem_Click);
-            // 
-            // показатьV2ToolStripMenuItem
-            // 
-            this.показатьV2ToolStripMenuItem.Name = "показатьV2ToolStripMenuItem";
-            this.показатьV2ToolStripMenuItem.Size = new System.Drawing.Size(106, 24);
-            this.показатьV2ToolStripMenuItem.Text = "Показать v2";
-            this.показатьV2ToolStripMenuItem.Click += new System.EventHandler(this.показатьV2ToolStripMenuItem_Click);
-            // 
-            // показатьEToolStripMenuItem
-            // 
-            this.показатьEToolStripMenuItem.Name = "показатьEToolStripMenuItem";
-            this.показатьEToolStripMenuItem.Size = new System.Drawing.Size(99, 24);
-            this.показатьEToolStripMenuItem.Text = "Показать e";
-            this.показатьEToolStripMenuItem.Click += new System.EventHandler(this.показатьEToolStripMenuItem_Click);
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.ClientSize = new System.Drawing.Size(1924, 928);
+            this.ClientSize = new System.Drawing.Size(1741, 928);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.dataGridView1);
@@ -534,7 +547,6 @@
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
@@ -563,9 +575,6 @@
         private System.Windows.Forms.RadioButton is_inter_y;
         private System.Windows.Forms.RadioButton is_inter_x;
         private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.RadioButton is_diff;
-        private System.Windows.Forms.RadioButton is_u;
-        private System.Windows.Forms.RadioButton is_v;
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.RadioButton userValue;
@@ -587,10 +596,14 @@
         private System.Windows.Forms.ToolStripMenuItem метоВерхнейРелаксацииToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem методМинимальныхНевязокToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem тестоваяЗадачаНаНепрямоугольнойОбластиToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem убратьСправкуToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem показатьVToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem показатьV2ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem показатьEToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem методСопряженныхГрадиентовToolStripMenuItem;
+        private System.Windows.Forms.Button utestbut;
+        private System.Windows.Forms.Button vbut;
+        private System.Windows.Forms.Button difmainbut;
+        private System.Windows.Forms.Button diftestbut;
+        private System.Windows.Forms.Button v2mainbut;
+        private System.Windows.Forms.Label labelrmax2;
+        private System.Windows.Forms.Label labelrmax;
     }
 }
 

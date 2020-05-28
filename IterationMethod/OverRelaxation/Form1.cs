@@ -12,12 +12,12 @@ namespace OverRelaxation
 {
     public partial class Form1 : Form
     {
-        bool test = true;
+        bool istest = true, isrectangle = true;
         double eps, w, h, t;
         int nmax, n, m;
         byte initApprx;
-        DirichletTask task, task2;
         double a = -1.0, b = 0.0, c = 0.0, d = 1.0;
+        DirichletTask task, task2;
         public Form1() {
             InitializeComponent();
         }
@@ -65,8 +65,8 @@ namespace OverRelaxation
             dataGridView1.Columns["j"].Frozen = true;
             dataGridView1.Columns["i"].Frozen = true;
 
-            int stepX = 60;
-            int stepY = 60;
+            int stepX = ((nRows - 2) / 30) + 1;
+            int stepY = ((nColumns - 3) / 30) + 1;
             for (int i = 0; i < nColumns - 2; i += stepX) {
                 AddColumn(i.ToString(), i.ToString());
             }
@@ -104,65 +104,6 @@ namespace OverRelaxation
             nRows = dataGridView1.RowCount;
             nColumns = dataGridView1.ColumnCount;
         }
-
-        void ConstructTableFor2400(ref int nColumns, ref int nRows)
-        {
-            dataGridView1.Rows.Clear();  // удаление всех строк
-            int count = dataGridView1.Columns.Count;
-            for (int i = 0; i < count; i++)     // цикл удаления всех столбцов
-            {
-                dataGridView1.Columns.RemoveAt(0);
-            }
-            AddColumn("j", " ");
-            AddColumn("i", "i");
-
-            dataGridView1.Columns["j"].Frozen = true;
-            dataGridView1.Columns["i"].Frozen = true;
-
-            int stepX = 120;
-            int stepY = 120;
-            for (int i = 0; i < nColumns - 2; i += stepX)
-            {
-                AddColumn(i.ToString(), i.ToString());
-            }
-
-            dataGridView1.Rows.Add();
-            for (int j = 0, i = 0; j < nRows - 1; j += stepY, i++)
-            {
-                dataGridView1.Rows.Add();
-                dataGridView1.Rows[i + 1].Cells[0].Value = j.ToString();
-            }
-
-            dataGridView1.Rows[0].Cells[0].Value = 'j';
-            dataGridView1.Rows[0].Cells[1].Value = "Y / X";
-            dataGridView1.Rows[0].Frozen = true;
-            dataGridView1.Rows[0].DefaultCellStyle.BackColor = Color.LightPink;
-            dataGridView1.Rows[0].Cells[0].Style.BackColor = Color.LightGray;
-            dataGridView1.Rows[0].Cells[1].Style.BackColor = Color.LightGray;
-            dataGridView1.Columns["j"].DefaultCellStyle.BackColor = Color.LightGray;
-            dataGridView1.Columns["i"].DefaultCellStyle.BackColor = Color.LightGray;
-            dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.LightPink;
-            dataGridView1.Columns[0].HeaderCell.Style.BackColor = Color.DarkGray;
-            dataGridView1.Columns[1].HeaderCell.Style.BackColor = Color.DarkGray;
-            dataGridView1.EnableHeadersVisualStyles = false;
-
-            for (int i = 2; i < dataGridView1.ColumnCount; i++)
-            {
-                dataGridView1.Rows[1].Cells[i].Style.BackColor = Color.LightGreen;
-                dataGridView1.Rows[dataGridView1.Rows.Count - 2].Cells[i].Style.BackColor = Color.LightGreen;
-            }
-
-            for (int i = 1; i < dataGridView1.Rows.Count - 1; i++)
-            {
-                dataGridView1.Rows[i].Cells[2].Style.BackColor = Color.LightGreen;
-                dataGridView1.Rows[i].Cells[dataGridView1.ColumnCount - 1].Style.BackColor = Color.LightGreen;
-            }
-
-
-            nRows = dataGridView1.RowCount;
-            nColumns = dataGridView1.ColumnCount;
-        }
-
         void DrawTableForRectangleWithHole() {
             int nr = dataGridView1.RowCount - 1;
             int nc = dataGridView1.ColumnCount;
@@ -203,53 +144,30 @@ namespace OverRelaxation
             }
         }
 
-        void InitVTable(int nrows, int ncolumns, ref DirichletTask dt) {
-            ConstructTable(ref ncolumns, ref nrows);
-            WriteXYValueToTable(a, b, c, d, n, m);
+        void InitVTable(int nrows, int ncolumns, ref DirichletTask task) {
             for (int i = 1; i < nrows - 1; i++) {
                 for (int j = 2; j < ncolumns; j++) {
                     int ii = Convert.ToInt32(dataGridView1.Columns[j].Name);
                     int jj = Convert.ToInt32(dataGridView1.Rows[i].Cells[0].Value);
-                    dataGridView1.Rows[i].Cells[j].Value = dt.GetValue(ii, jj);
+                    dataGridView1.Rows[i].Cells[j].Value = task.GetValue(ii, jj);
                 }
             }
         }
-
-        void InitVTableFor2400(int nrows, int ncolumns, ref DirichletTask dt)
-        {
-            ConstructTableFor2400(ref ncolumns, ref nrows);
-            WriteXYValueToTable(a, b, c, d, n, m);
-            for (int i = 1; i < nrows - 1; i++)
-            {
-                for (int j = 2; j < ncolumns; j++)
-                {
-                    int ii = Convert.ToInt32(dataGridView1.Columns[j].Name);
-                    int jj = Convert.ToInt32(dataGridView1.Rows[i].Cells[0].Value);
-                    dataGridView1.Rows[i].Cells[j].Value = dt.GetValue(ii, jj);
-                }
-            }
-        }
-
-        void InitTestDifferenceTable(int nrows, int ncolumns, ref DirichletTask dt) {
-            ConstructTable(ref ncolumns, ref nrows);
-            WriteXYValueToTable(a, b, c, d, n, m);
+        void InitTestDifferenceTable(int nrows, int ncolumns, ref DirichletTask task) {
             for (int i = 1; i < nrows - 1; i++) {
                 for (int j = 2; j < ncolumns; j++) {
                     int ii = Convert.ToInt32(dataGridView1.Columns[j].Name);
                     int jj = Convert.ToInt32(dataGridView1.Rows[i].Cells[0].Value);
-                    dataGridView1.Rows[i].Cells[j].Value = Math.Abs(dt.u(ii, jj) - dt.GetValue(ii, jj));
+                    dataGridView1.Rows[i].Cells[j].Value = Math.Abs(task.u(ii, jj) - task.GetValue(ii, jj));
                 }
             }
         }
-
-        void InitMainDifferenceTable(int nrows, int ncolumns, ref DirichletTask dt, ref DirichletTask dt2) {
-            ConstructTable(ref ncolumns, ref nrows);
-            WriteXYValueToTable(a, b, c, d, n, m);
+        void InitMainDifferenceTable(int nrows, int ncolumns, ref DirichletTask task, ref DirichletTask task2) {
             for (int i = 1; i < nrows - 1; i++) {
                 for (int j = 2; j < ncolumns; j++) {
                     int ii = Convert.ToInt32(dataGridView1.Columns[j].Name);
                     int jj = Convert.ToInt32(dataGridView1.Rows[i].Cells[0].Value);
-                    dataGridView1.Rows[i].Cells[j].Value = Math.Abs(dt2.GetValue(2 * ii, 2 * jj) - dt.GetValue(ii, jj));
+                    dataGridView1.Rows[i].Cells[j].Value = Math.Abs(task2.GetValue(2 * ii, 2 * jj) - task.GetValue(ii, jj));
                 }
             }
         }
@@ -266,24 +184,58 @@ namespace OverRelaxation
             return maxError;
         }
 
-        private void убратьСправкуToolStripMenuItem_Click(object sender, EventArgs e)
+        private void button1_Click(object sender, EventArgs e)
         {
-            groupBox4.Visible = !groupBox4.Visible;
+            int nrows = m + 2;
+            int ncolumns = n + 3;
+            ConstructTable(ref ncolumns, ref nrows);
+            if (!isrectangle) DrawTableForRectangleWithHole();
+            WriteXYValueToTable(-1.0, 0.0, 0.0, 1.0, n, m);
+            InitVTable(nrows, ncolumns, ref task);
         }
 
-        private void показатьVToolStripMenuItem_Click(object sender, EventArgs e)
+        private void button2_Click(object sender, EventArgs e)
         {
-            InitVTable(m + 2, n + 3, ref task);
+            if (!istest) return;
+            int nrows = m + 2;
+            int ncolumns = n + 3;
+            ConstructTable(ref ncolumns, ref nrows);
+            if (!isrectangle) DrawTableForRectangleWithHole();
+            WriteXYValueToTable(-1.0, 0.0, 0.0, 1.0, n, m);
+            InitUTable(nrows, ncolumns, ref task);
         }
 
-        private void показатьEToolStripMenuItem_Click(object sender, EventArgs e)
+        private void button4_Click(object sender, EventArgs e)
         {
-            InitMainDifferenceTable(m + 2, n + 3, ref task, ref task2);
+            if (istest) return;
+            int nrows = 2 * m + 2;
+            int ncolumns = 2 * n + 3;
+            ConstructTable(ref ncolumns, ref nrows);
+            if (!isrectangle) DrawTableForRectangleWithHole();
+            WriteXYValueToTable(a, b, c, d, n, m);
+            InitVTable(nrows, ncolumns, ref task2);
         }
 
-        private void показатьV2ToolStripMenuItem_Click(object sender, EventArgs e)
+        private void button3_Click(object sender, EventArgs e)
         {
-            InitVTableFor2400(2 * m + 2, 2 * n + 3, ref task2);
+            if (!istest) return;
+            int nrows = m + 2;
+            int ncolumns = n + 3;
+            ConstructTable(ref ncolumns, ref nrows);
+            if (!isrectangle) DrawTableForRectangleWithHole();
+            WriteXYValueToTable(-1.0, 0.0, 0.0, 1.0, n, m);
+            InitTestDifferenceTable(nrows, ncolumns, ref task);
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            if (istest) return;
+            int nrows = m + 2;
+            int ncolumns = n + 3;
+            ConstructTable(ref ncolumns, ref nrows);
+            if (!isrectangle) DrawTableForRectangleWithHole();
+            WriteXYValueToTable(a, b, c, d, n, m);
+            InitMainDifferenceTable(nrows, ncolumns, ref task, ref task2);
         }
 
         double CalculateMainError(ref DirichletTask task, ref DirichletTask task2, ref int iTotalEps, ref int jTotalEps) {
@@ -299,7 +251,7 @@ namespace OverRelaxation
         }
 
         void WriteResults(bool isTest, double maxError, int iTotalEps, int jTotalEps,
-    double xTotalEps, double yTotalEps, double epsMax, int nIters) {
+    double xTotalEps, double yTotalEps, double epsMax, int nIters, double rmax, double rmax2 = 0.0) {
             labelIJTotalEps.Text = "которая достигается в узле (i, j) = " + "("
                 + iTotalEps.ToString() + ", " + jTotalEps.ToString() + ")";
 
@@ -318,200 +270,155 @@ namespace OverRelaxation
             labelEps.Text = "Достигнутая точность метода  eps = " + epsMax.ToString();
 
             labelNIter.Text = "Число итераций метода N = " + nIters.ToString();
+
+            labelrmax.Text = "Норма невязки для v = " + rmax.ToString();
+            if (!istest) {
+                labelrmax2.Text = "Норма невязки для v2 = " + rmax2.ToString();
+            } else {
+                labelrmax2.Text = " ";
+            }
         }
 
         private void МетодВерхнейРелаксацииToolStripMenuItem_Click(object sender, EventArgs e) {
             InitMethodParameters();
 
-            DirichletTask task = new TestTaskRectangle(-1.0, 0.0, 0.0, 1.0, n, m, eps, nmax, initApprx, w);
+            istest = true;
+            isrectangle = true;
+            task = new TestTaskRectangle(-1.0, 0.0, 0.0, 1.0, n, m, eps, nmax, initApprx, w);
             task.OverRelaxationMethod();
-
-            int nrows = m + 2;
-            int ncolumns = n + 3;
-            ConstructTable(ref ncolumns, ref nrows);
-            WriteXYValueToTable(-1.0, 0.0, 0.0, 1.0, n, m);
-
-            if (is_u.Checked) {
-                InitUTable(nrows, ncolumns, ref task);
-            } else if (is_v.Checked) {
-                InitVTable(nrows, ncolumns, ref task);
-            } else if (is_diff.Checked) {
-                InitTestDifferenceTable(nrows, ncolumns, ref task);
-            }
 
             int iTotalEps = -1, jTotalEps = -1;
             double maxError = CalculateTestError(ref task, ref iTotalEps, ref jTotalEps);
 
             double xTotalEps = a + iTotalEps * (b - a) / n;
             double yTotalEps = c + jTotalEps * (d - c) / m;
+            double rmax = task.RMax();
 
-            WriteResults(test, maxError, iTotalEps, jTotalEps, xTotalEps, yTotalEps, task.epsMax, task.countSteps);
+            WriteResults(istest, maxError, iTotalEps, jTotalEps, xTotalEps, yTotalEps, task.epsMax, task.countSteps, rmax);
             str_w.Text = task.w.ToString();
         }
 
         private void МетодМинимальныхНевязокToolStripMenuItem_Click(object sender, EventArgs e) {
             InitMethodParameters();
 
-            DirichletTask task = new TestTaskRectangle(-1.0, 0.0, 0.0, 1.0, n, m, eps, nmax, initApprx);
+            istest = true;
+            isrectangle = true;
+            task = new TestTaskRectangle(-1.0, 0.0, 0.0, 1.0, n, m, eps, nmax, initApprx);
             task.MinimumResidualsMethod();
-
-            int nrows = m + 2;
-            int ncolumns = n + 3;
-            ConstructTable(ref ncolumns, ref nrows);
-            WriteXYValueToTable(-1.0, 0.0, 0.0, 1.0, n, m);
-
-            if (is_u.Checked) {
-                InitUTable(nrows, ncolumns, ref task);
-            } else if (is_v.Checked) {
-                InitVTable(nrows, ncolumns, ref task);
-            } else if (is_diff.Checked) {
-                InitTestDifferenceTable(nrows, ncolumns, ref task);
-            }
 
             int iTotalEps = -1, jTotalEps = -1;
             double maxError = CalculateTestError(ref task, ref iTotalEps, ref jTotalEps);
 
             double xTotalEps = a + iTotalEps * (b - a) / n;
             double yTotalEps = c + jTotalEps * (d - c) / m;
+            double rmax = task.RMax();
 
-            WriteResults(test, maxError, iTotalEps, jTotalEps, xTotalEps, yTotalEps, task.epsMax, task.countSteps);
+            WriteResults(istest, maxError, iTotalEps, jTotalEps, xTotalEps, yTotalEps, task.epsMax, task.countSteps, rmax);
         }
-
+ 
         private void МетоВерхнейРелаксацииToolStripMenuItem_Click(object sender, EventArgs e) {
             InitMethodParameters();
 
+            istest = false;
+            isrectangle = true;
             task = new MainTaskRectangle(-1.0, 0.0, 0.0, 1.0, n, m, eps, nmax, initApprx, w);
             task2 = new MainTaskRectangle(-1.0, 0.0, 0.0, 1.0, 2 * n, 2 * m, eps, nmax, initApprx, w);
-            double rmax = task.OverRelaxationMethod();
-            double rmax2 = task2.OverRelaxationMethod();
-
-            Console.WriteLine("rmax = " + rmax.ToString());
-            Console.WriteLine("rmax2 = " + rmax2.ToString());
-
-            int nrows = m + 2;
-            int ncolumns = n + 3;
-/*
-            if (is_u.Checked) {
-                nrows = 2 * m + 2;
-                ncolumns = 2 * n + 3;
-                InitVTable(nrows, ncolumns, ref task2);
-            } else if (is_v.Checked) {
-                ConstructTable(ref ncolumns, ref nrows);
-                WriteXYValueToTable(a, b, c, d, n, m);
-                InitVTable(nrows, ncolumns, ref task);
-            } else if (is_diff.Checked) {
-                ConstructTable(ref ncolumns, ref nrows);
-                WriteXYValueToTable(a, b, c, d, n, m);
-                InitMainDifferenceTable(nrows, ncolumns, ref task, ref task2);
-            }
-*/
+            task.OverRelaxationMethod();
+            task2.OverRelaxationMethod();
 
             int iTotalEps = -1, jTotalEps = -1;
             double maxError = CalculateMainError(ref task, ref task2, ref iTotalEps, ref jTotalEps);
 
             double xTotalEps = a + iTotalEps * (b - a) / n;
             double yTotalEps = c + jTotalEps * (d - c) / m;
+            double rmax = task.RMax();
+            double rmax2 = task2.RMax();
 
-            WriteResults(test, maxError, iTotalEps, jTotalEps, xTotalEps, yTotalEps, task.epsMax, task.countSteps);
+            WriteResults(istest, maxError, iTotalEps, jTotalEps, xTotalEps, yTotalEps, task.epsMax, task.countSteps, rmax, rmax2);
             str_w.Text = task.w.ToString();
         }
 
         private void МетодМинимальныхНевязокToolStripMenuItem1_Click(object sender, EventArgs e) {
             InitMethodParameters();
 
-            DirichletTask task = new MainTaskRectangle(-1.0, 0.0, 0.0, 1.0, n, m, eps, nmax, initApprx);
-            DirichletTask task2 = new MainTaskRectangle(-1.0, 0.0, 0.0, 1.0, 2 * n, 2 * m, eps, nmax, initApprx);
+            istest = false;
+            isrectangle = true;
+            task = new MainTaskRectangle(-1.0, 0.0, 0.0, 1.0, n, m, eps, nmax, initApprx);
+            task2 = new MainTaskRectangle(-1.0, 0.0, 0.0, 1.0, 2 * n, 2 * m, eps, nmax, initApprx);
             task.MinimumResidualsMethod();
             task2.MinimumResidualsMethod();
-
-            int nrows = m + 2;
-            int ncolumns = n + 3;
-
-            if (is_u.Checked) {
-                nrows = 2 * m + 2;
-                ncolumns = 2 * n + 3;
-                ConstructTable(ref ncolumns, ref nrows);
-                WriteXYValueToTable(-1.0, 0.0, 0.0, 1.0, n, m);
-                InitVTable(nrows, ncolumns, ref task2);
-            } else if (is_v.Checked) {
-                ConstructTable(ref ncolumns, ref nrows);
-                WriteXYValueToTable(-1.0, 0.0, 0.0, 1.0, n, m);
-                InitVTable(nrows, ncolumns, ref task);
-            } else if (is_diff.Checked) {
-                ConstructTable(ref ncolumns, ref nrows);
-                WriteXYValueToTable(-1.0, 0.0, 0.0, 1.0, n, m);
-                InitMainDifferenceTable(nrows, ncolumns, ref task, ref task2);
-            }
 
             int iTotalEps = -1, jTotalEps = -1;
             double maxError = CalculateMainError(ref task, ref task2, ref iTotalEps, ref jTotalEps);
 
             double xTotalEps = a + iTotalEps * (b - a) / n;
             double yTotalEps = c + jTotalEps * (d - c) / m;
+            double rmax = task.RMax();
+            double rmax2 = task2.RMax();
 
-            WriteResults(test, maxError, iTotalEps, jTotalEps, xTotalEps, yTotalEps, task.epsMax, task.countSteps);
+            WriteResults(istest, maxError, iTotalEps, jTotalEps, xTotalEps, yTotalEps, task.epsMax, task.countSteps, rmax, rmax2);
+            str_w.Text = task.w.ToString();
+        }
+
+        private void методСопряженныхГрадиентовToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            InitMethodParameters();
+
+            istest = false;
+            isrectangle = true;
+            task = new MainTaskRectangle(-1.0, 0.0, 0.0, 1.0, n, m, eps, nmax, initApprx, w);
+            task2 = new MainTaskRectangle(-1.0, 0.0, 0.0, 1.0, 2 * n, 2 * m, eps, nmax, initApprx, w);
+            task.ConjugateGradientMethod();
+            task2.ConjugateGradientMethod();
+
+            int iTotalEps = -1, jTotalEps = -1;
+            double maxError = CalculateMainError(ref task, ref task2, ref iTotalEps, ref jTotalEps);
+
+            double xTotalEps = a + iTotalEps * (b - a) / n;
+            double yTotalEps = c + jTotalEps * (d - c) / m;
+            double rmax = task.RMax();
+            double rmax2 = task2.RMax();
+
+            WriteResults(istest, maxError, iTotalEps, jTotalEps, xTotalEps, yTotalEps, task.epsMax, task.countSteps, rmax, rmax2);
             str_w.Text = task.w.ToString();
         }
 
         private void МетодСопряженногоГрадиентаToolStripMenuItem_Click(object sender, EventArgs e) {
             InitMethodParameters();
-            DirichletTask task =
-                new TestTaskRectangle(-1.0, 0.0, 0.0, 1.0, n, m, eps, nmax, initApprx);
-
+            istest = true;
+            isrectangle = true;
+            task = new TestTaskRectangle(-1.0, 0.0, 0.0, 1.0, n, m, eps, nmax, initApprx);
             task.ConjugateGradientMethod();
-
-            int nrows = m + 2;
-            int ncolumns = n + 3;
-            ConstructTable(ref ncolumns, ref nrows);
-            WriteXYValueToTable(-1.0, 0.0, 0.0, 1.0, n, m);
-
-            if (is_u.Checked) {
-                InitUTable(nrows, ncolumns, ref task);
-            } else if (is_v.Checked) {
-                InitVTable(nrows, ncolumns, ref task);
-            } else if (is_diff.Checked) {
-                InitTestDifferenceTable(nrows, ncolumns, ref task);
-            }
-
 
             int iTotalEps = -1, jTotalEps = -1;
             double maxError = CalculateTestError(ref task, ref iTotalEps, ref jTotalEps);
 
             double xTotalEps = a + iTotalEps * (b - a) / n;
             double yTotalEps = c + jTotalEps * (d - c) / m;
+            double rmax = task.RMax();
 
-            WriteResults(test, maxError, iTotalEps, jTotalEps, xTotalEps, yTotalEps, task.epsMax, task.countSteps);
+            WriteResults(istest, maxError, iTotalEps, jTotalEps, xTotalEps, yTotalEps, task.epsMax, task.countSteps, rmax);
         }
 
         private void ТестоваяЗадачаНаНепрямоугольнойОбластиToolStripMenuItem_Click(object sender, EventArgs e) {
             InitMethodParameters();
-            DirichletTask task =
-                new TestTaskRectangleWithHole(-1.0, 0.0, 0.0, 1.0, n, m, eps, nmax, initApprx);
+            istest = true;
+            isrectangle = false;
+            task = new TestTaskRectangleWithHole(-1.0, 0.0, 0.0, 1.0, n, m, eps, nmax, initApprx);
 
             task.ConjugateGradientMethod();
 
             int nrows = m + 2;
             int ncolumns = n + 3;
-            ConstructTable(ref ncolumns, ref nrows);
-            DrawTableForRectangleWithHole();
-            WriteXYValueToTable(-1.0, 0.0, 0.0, 1.0, n, m);
-
-            if (is_u.Checked) {
-                InitUTable(nrows, ncolumns, ref task);
-            } else if (is_v.Checked) {
-                InitVTable(nrows, ncolumns, ref task);
-            } else if (is_diff.Checked) {
-                InitTestDifferenceTable(nrows, ncolumns, ref task);
-            }
-
 
             int iTotalEps = -1, jTotalEps = -1;
             double maxError = CalculateTestError(ref task, ref iTotalEps, ref jTotalEps);
 
             double xTotalEps = a + iTotalEps * (b - a) / n;
             double yTotalEps = c + jTotalEps * (d - c) / m;
+            double rmax = task.RMax();
 
-            WriteResults(test, maxError, iTotalEps, jTotalEps, xTotalEps, yTotalEps, task.epsMax, task.countSteps);
+            WriteResults(istest, maxError, iTotalEps, jTotalEps, xTotalEps, yTotalEps, task.epsMax, task.countSteps, rmax);
         }
     }
 }
