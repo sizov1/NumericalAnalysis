@@ -67,7 +67,7 @@ namespace OverRelaxation
                     - f(a + i * h, c + j * t);
                 if (Math.Abs(r[i, j]) > rmax)
                 {
-                    rmax = r[i, j];
+                    rmax = Math.Abs(r[i, j]);
                 }
             }
 
