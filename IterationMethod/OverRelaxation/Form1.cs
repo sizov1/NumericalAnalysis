@@ -16,7 +16,7 @@ namespace OverRelaxation
         double eps, w, h, t;
         int nmax, n, m;
         byte initApprx;
-        double a = -1.0, b = 0.0, c = 0.0, d = 1.0;
+        double a = 1.0, b = 2.0, c = 1.0, d = 2.0;
         DirichletTask task, task2;
         public Form1() {
             InitializeComponent();
@@ -201,7 +201,7 @@ namespace OverRelaxation
             int ncolumns = n + 3;
             ConstructTable(ref ncolumns, ref nrows);
             if (!isrectangle) DrawTableForRectangleWithHole();
-            WriteXYValueToTable(-1.0, 0.0, 0.0, 1.0, n, m);
+            WriteXYValueToTable(a, b, c, d, n, m);
             InitUTable(nrows, ncolumns, ref task);
         }
 
@@ -223,7 +223,7 @@ namespace OverRelaxation
             int ncolumns = n + 3;
             ConstructTable(ref ncolumns, ref nrows);
             if (!isrectangle) DrawTableForRectangleWithHole();
-            WriteXYValueToTable(-1.0, 0.0, 0.0, 1.0, n, m);
+            WriteXYValueToTable(a, b, c, d, n, m);
             InitTestDifferenceTable(nrows, ncolumns, ref task);
         }
 
@@ -284,7 +284,7 @@ namespace OverRelaxation
 
             istest = true;
             isrectangle = true;
-            task = new TestTaskRectangle(-1.0, 0.0, 0.0, 1.0, n, m, eps, nmax, initApprx, w);
+            task = new TestTaskRectangle(a, b, c, d, n, m, eps, nmax, initApprx, w);
             task.OverRelaxationMethod();
 
             int iTotalEps = -1, jTotalEps = -1;
@@ -303,7 +303,7 @@ namespace OverRelaxation
 
             istest = true;
             isrectangle = true;
-            task = new TestTaskRectangle(-1.0, 0.0, 0.0, 1.0, n, m, eps, nmax, initApprx);
+            task = new TestTaskRectangle(a, b, c, d, n, m, eps, nmax, initApprx);
             task.MinimumResidualsMethod();
 
             int iTotalEps = -1, jTotalEps = -1;
@@ -321,8 +321,8 @@ namespace OverRelaxation
 
             istest = false;
             isrectangle = true;
-            task = new MainTaskRectangle(-1.0, 0.0, 0.0, 1.0, n, m, eps, nmax, initApprx, w);
-            task2 = new MainTaskRectangle(-1.0, 0.0, 0.0, 1.0, 2 * n, 2 * m, eps, nmax, initApprx, w);
+            task = new MainTaskRectangle(a, b, c, d, n, m, eps, nmax, initApprx, w);
+            task2 = new MainTaskRectangle(a, b, c, d, 2 * n, 2 * m, eps, nmax, initApprx, w);
             task.OverRelaxationMethod();
             task2.OverRelaxationMethod();
 
@@ -343,8 +343,8 @@ namespace OverRelaxation
 
             istest = false;
             isrectangle = true;
-            task = new MainTaskRectangle(-1.0, 0.0, 0.0, 1.0, n, m, eps, nmax, initApprx);
-            task2 = new MainTaskRectangle(-1.0, 0.0, 0.0, 1.0, 2 * n, 2 * m, eps, nmax, initApprx);
+            task = new MainTaskRectangle(a, b, c, d, n, m, eps, nmax, initApprx);
+            task2 = new MainTaskRectangle(a, b, c, d, 2 * n, 2 * m, eps, nmax, initApprx);
             task.MinimumResidualsMethod();
             task2.MinimumResidualsMethod();
 
@@ -366,8 +366,8 @@ namespace OverRelaxation
 
             istest = false;
             isrectangle = true;
-            task = new MainTaskRectangle(-1.0, 0.0, 0.0, 1.0, n, m, eps, nmax, initApprx, w);
-            task2 = new MainTaskRectangle(-1.0, 0.0, 0.0, 1.0, 2 * n, 2 * m, eps, nmax, initApprx, w);
+            task = new MainTaskRectangle(a, b, c, d, n, m, eps, nmax, initApprx, w);
+            task2 = new MainTaskRectangle(a, b, c, d, 2 * n, 2 * m, eps, nmax, initApprx, w);
             task.ConjugateGradientMethod();
             task2.ConjugateGradientMethod();
 
@@ -387,7 +387,7 @@ namespace OverRelaxation
             InitMethodParameters();
             istest = true;
             isrectangle = true;
-            task = new TestTaskRectangle(-1.0, 0.0, 0.0, 1.0, n, m, eps, nmax, initApprx);
+            task = new TestTaskRectangle(a, b, c, d, n, m, eps, nmax, initApprx);
             task.ConjugateGradientMethod();
 
             int iTotalEps = -1, jTotalEps = -1;
@@ -404,7 +404,7 @@ namespace OverRelaxation
             InitMethodParameters();
             istest = true;
             isrectangle = false;
-            task = new TestTaskRectangleWithHole(-1.0, 0.0, 0.0, 1.0, n, m, eps, nmax, initApprx);
+            task = new TestTaskRectangleWithHole(a, b, c, d, n, m, eps, nmax, initApprx);
 
             task.ConjugateGradientMethod();
 

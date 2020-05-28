@@ -154,11 +154,14 @@ namespace OverRelaxation
             double divider = 0.0;
             double ts = 0.0;
             double temp;
-            for (int i = 1, j = 1; i < n && j < m; GetNextInnerXYIndex(ref i, ref j))
+            for (int i = 1; i < n; i++)
             {
-                temp = (r[i, j] * a2 + h2 * (r[i + 1, j] + r[i - 1, j]) + t2 * (r[i, j + 1] + r[i, j - 1]));
-                ts += temp * r[i, j];
-                divider += temp * temp;
+                for (int j = 1; j < m; j++)
+                {
+                    temp = (r[i, j] * a2 + h2 * (r[i + 1, j] + r[i - 1, j]) + t2 * (r[i, j + 1] + r[i, j - 1]));
+                    ts += temp * r[i, j];
+                    divider += temp * temp;
+                }
             }
             ts = ts / divider;
             return ts;
@@ -206,6 +209,7 @@ namespace OverRelaxation
                         v[i, j] = newValue;
                     }
                 }
+
                 countSteps++;
                 if (epsMax < eps || countSteps >= nmax) stop = true;
             }
@@ -348,7 +352,7 @@ namespace OverRelaxation
 
         public override double u(int i, int j)
         {
-            return Math.Exp((a + i * h) * (c + j * t));
+            return Math.Exp((a + i * h) * (a + i * h) - (c + j * t) * (c + j * t));
         }
 
         public override abstract double f(double x, double y);
@@ -424,7 +428,7 @@ namespace OverRelaxation
 
         public override double f(double x, double y)
         {
-            return -(x * x + y * y) * Math.Exp(x * y);
+            return -4 * (x * x + y * y) * Math.Exp(x * x - y * y);
         }
 
         protected override void InitBorderValue()
@@ -464,27 +468,27 @@ namespace OverRelaxation
 
         public override double f(double x, double y)
         {
-            return Math.Cosh(x * x * y);
+            return Math.Atan(x / y);
         }
 
         public double M1(double y)
         {
-            return Math.Sin(Math.PI * y);
+            return 0.0;
         }
 
         public double M2(double y)
         {
-            return Math.Abs(Math.Sin(2 * Math.PI * y));
+            return 0.0;
         }
 
         public double M3(double x)
         {
-            return -x * (x + 1);
+            return Math.Sin(Math.PI * x) * Math.Sin(Math.PI * x);
         }
 
         public double M4(double x)
         {
-            return -x * (x + 1);
+            return Math.Cosh((x - 1) * (x - 2)) - 1.0;
         }
     }
 
@@ -498,7 +502,7 @@ namespace OverRelaxation
 
         public override double f(double x, double y)
         {
-            return -(x * x + y * y) * Math.Exp(x * y);
+            return -4 * (x * x + y * y) * Math.Exp(x * x - y * y);
         }
 
         protected override void InitBorderValue()
