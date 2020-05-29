@@ -125,7 +125,7 @@ namespace OverRelaxation
             double t2 = -((double)m / (d - c)) * ((double)m / (d - c));
             double a2 = -2 * (h2 + t2);
             countSteps = 0;
-            bool stop = false;
+            bool stop = nmax > 0;
             while (!stop)
             {
                 epsMax = 0.0;
@@ -179,7 +179,7 @@ namespace OverRelaxation
             double t2 = -((double)m / (d - c)) * ((double)m / (d - c));
             double a2 = -2 * (h2 + t2);
             countSteps = 0;
-            bool stop = false;
+            bool stop = nmax > 0;
             double ts;
             while (!stop)
             {
