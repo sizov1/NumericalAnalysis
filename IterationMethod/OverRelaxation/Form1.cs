@@ -223,7 +223,7 @@ namespace OverRelaxation
             int ncolumns = n + 3;
             ConstructTable(ref ncolumns, ref nrows);
             if (!isrectangle) DrawTableForRectangleWithHole();
-            WriteXYValueToTable(-1.0, 0.0, 0.0, 1.0, n, m);
+            WriteXYValueToTable(a, b, c, d, n, m);
             InitVTable(nrows, ncolumns, ref task);
         }
 
