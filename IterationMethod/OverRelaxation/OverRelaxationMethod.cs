@@ -70,8 +70,20 @@ namespace OverRelaxation
                     rmax = Math.Abs(r[i, j]);
                 }
             }
-
             return rmax;
+        }
+
+        public double R2()
+        {
+            double r2 = 0.0;
+            r = new double[n + 1, m + 1];
+            for (int i = 1, j = 1; i < n && j < m; GetNextInnerXYIndex(ref i, ref j))
+            {
+                r[i, j] = v[i, j] * a2 + h2 * (v[i - 1, j] + v[i + 1, j]) + t2 * (v[i, j - 1] + v[i, j + 1])
+                    - f(a + i * h, c + j * t);
+                r2 += r[i, j] * r[i, j];
+            }
+            return Math.Sqrt(r2);
         }
 
         public abstract double f(double x, double y);

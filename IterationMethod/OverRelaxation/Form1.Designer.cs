@@ -71,6 +71,8 @@
             this.методСопряженныхГрадиентовToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.тестоваяЗадачаНаНепрямоугольнойОбластиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.labelr2 = new System.Windows.Forms.Label();
+            this.labelr22 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -341,6 +343,8 @@
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.labelr22);
+            this.groupBox4.Controls.Add(this.labelr2);
             this.groupBox4.Controls.Add(this.labelrmax2);
             this.groupBox4.Controls.Add(this.labelrmax);
             this.groupBox4.Controls.Add(this.labelXYTotalEps);
@@ -352,7 +356,7 @@
             this.groupBox4.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBox4.Size = new System.Drawing.Size(729, 208);
+            this.groupBox4.Size = new System.Drawing.Size(729, 237);
             this.groupBox4.TabIndex = 22;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Результаты работы метода";
@@ -388,7 +392,7 @@
             // labelEps
             // 
             this.labelEps.AutoSize = true;
-            this.labelEps.Location = new System.Drawing.Point(8, 154);
+            this.labelEps.Location = new System.Drawing.Point(8, 210);
             this.labelEps.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelEps.Name = "labelEps";
             this.labelEps.Size = new System.Drawing.Size(255, 17);
@@ -398,7 +402,7 @@
             // labelNIter
             // 
             this.labelNIter.AutoSize = true;
-            this.labelNIter.Location = new System.Drawing.Point(8, 130);
+            this.labelNIter.Location = new System.Drawing.Point(8, 186);
             this.labelNIter.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelNIter.Name = "labelNIter";
             this.labelNIter.Size = new System.Drawing.Size(198, 17);
@@ -518,6 +522,24 @@
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
             // 
+            // labelr2
+            // 
+            this.labelr2.AutoSize = true;
+            this.labelr2.Location = new System.Drawing.Point(8, 155);
+            this.labelr2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelr2.Name = "labelr2";
+            this.labelr2.Size = new System.Drawing.Size(0, 17);
+            this.labelr2.TabIndex = 7;
+            // 
+            // labelr22
+            // 
+            this.labelr22.AutoSize = true;
+            this.labelr22.Location = new System.Drawing.Point(370, 155);
+            this.labelr22.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelr22.Name = "labelr22";
+            this.labelr22.Size = new System.Drawing.Size(0, 17);
+            this.labelr22.TabIndex = 8;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -604,6 +626,8 @@
         private System.Windows.Forms.Button v2mainbut;
         private System.Windows.Forms.Label labelrmax2;
         private System.Windows.Forms.Label labelrmax;
+        private System.Windows.Forms.Label labelr22;
+        private System.Windows.Forms.Label labelr2;
     }
 }
 
