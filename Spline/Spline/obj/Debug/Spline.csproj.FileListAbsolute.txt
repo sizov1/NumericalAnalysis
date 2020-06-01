@@ -1,0 +1,13 @@
+C:\Users\sizov\Documents\NumericalAnalysis\Spline\Spline\bin\Debug\Spline.exe.config
+C:\Users\sizov\Documents\NumericalAnalysis\Spline\Spline\bin\Debug\Spline.exe
+C:\Users\sizov\Documents\NumericalAnalysis\Spline\Spline\bin\Debug\Spline.pdb
+C:\Users\sizov\Documents\NumericalAnalysis\Spline\Spline\bin\Debug\ZedGraph.dll
+C:\Users\sizov\Documents\NumericalAnalysis\Spline\Spline\obj\Debug\Spline.csprojAssemblyReference.cache
+C:\Users\sizov\Documents\NumericalAnalysis\Spline\Spline\obj\Debug\Spline.Form1.resources
+C:\Users\sizov\Documents\NumericalAnalysis\Spline\Spline\obj\Debug\Spline.FormInfo.resources
+C:\Users\sizov\Documents\NumericalAnalysis\Spline\Spline\obj\Debug\Spline.Properties.Resources.resources
+C:\Users\sizov\Documents\NumericalAnalysis\Spline\Spline\obj\Debug\Spline.csproj.GenerateResource.cache
+C:\Users\sizov\Documents\NumericalAnalysis\Spline\Spline\obj\Debug\Spline.csproj.CoreCompileInputs.cache
+C:\Users\sizov\Documents\NumericalAnalysis\Spline\Spline\obj\Debug\Spline.csproj.CopyComplete
+C:\Users\sizov\Documents\NumericalAnalysis\Spline\Spline\obj\Debug\Spline.exe
+C:\Users\sizov\Documents\NumericalAnalysis\Spline\Spline\obj\Debug\Spline.pdb

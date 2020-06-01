@@ -40,8 +40,8 @@ namespace Spline
         public double dS(double x)
         {
             int k = 0;
-            double xcurr = x0;
-            while (x > xcurr)
+            double xcurr = x0, eps = 1e-10;
+            while (x - xcurr > eps)
             {
                 k++;
                 xcurr = x0 + k * h;
@@ -52,8 +52,8 @@ namespace Spline
         public double d2S(double x)
         {
             int k = 0;
-            double xcurr = x0;
-            while (x > xcurr)
+            double xcurr = x0, eps = 1e-10;
+            while (x - xcurr > eps)
             {
                 k++;
                 xcurr = x0 + k * h;
