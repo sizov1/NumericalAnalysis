@@ -59,7 +59,7 @@ namespace OverRelaxation
             dataGridView1.Columns.Add(column);
         }
 
-        void ConstructTable(ref int nColumns, ref int nRows)
+        void ConstructTable(ref int nColumns, ref int nRows, bool q = false)
         {
             dataGridView1.Rows.Clear();  // удаление всех строк
             int count = dataGridView1.Columns.Count;
@@ -73,8 +73,13 @@ namespace OverRelaxation
             dataGridView1.Columns["j"].Frozen = true;
             dataGridView1.Columns["i"].Frozen = true;
 
-            int stepX = ((nRows - 2) / 30) + 1;
-            int stepY = ((nColumns - 3) / 30) + 1;
+            int stepX = 100;
+            int stepY = 100;
+            if (q)
+            {
+                stepX = 200;
+                stepY = 200;
+            }
             for (int i = 0; i < nColumns - 2; i += stepX)
             {
                 AddColumn(i.ToString(), i.ToString());
@@ -243,9 +248,9 @@ namespace OverRelaxation
             if (istest) return;
             int nrows = 2 * m + 2;
             int ncolumns = 2 * n + 3;
-            ConstructTable(ref ncolumns, ref nrows);
+            ConstructTable(ref ncolumns, ref nrows, true);
             if (!isrectangle) DrawTableForRectangleWithHole();
-            WriteXYValueToTable(a, b, c, d, n, m);
+            WriteXYValueToTable(a, b, c, d, 2*n, 2*m);
             InitVTable(nrows, ncolumns, ref task2);
         }
 
@@ -342,7 +347,7 @@ namespace OverRelaxation
             double rmax = task.RMax();
             double r2 = task.R2();
 
-            WriteResults(istest, maxError, iTotalEps, jTotalEps, xTotalEps, yTotalEps, task.epsMax, task.countSteps, rmax, -1.0, r2);
+            WriteResults(istest, maxError, iTotalEps, jTotalEps, xTotalEps, yTotalEps, task.epsMax, task.countSteps, rmax, r2);
             str_w.Text = task.w.ToString();
         }
 

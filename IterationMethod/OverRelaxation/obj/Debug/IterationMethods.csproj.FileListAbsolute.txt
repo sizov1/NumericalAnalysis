@@ -18,3 +18,13 @@ C:\Users\Kirill\Documents\numerical-analysis\IterationMethod\OverRelaxation\obj\
 C:\Users\Kirill\Documents\numerical-analysis\IterationMethod\OverRelaxation\obj\Debug\IterationMethods.csproj.CoreCompileInputs.cache
 C:\Users\Kirill\Documents\numerical-analysis\IterationMethod\OverRelaxation\obj\Debug\OverRelaxation.exe
 C:\Users\Kirill\Documents\numerical-analysis\IterationMethod\OverRelaxation\obj\Debug\OverRelaxation.pdb
+C:\Users\sizov\Documents\NumericalAnalysis\IterationMethod\OverRelaxation\bin\Debug\OverRelaxation.exe.config
+C:\Users\sizov\Documents\NumericalAnalysis\IterationMethod\OverRelaxation\bin\Debug\OverRelaxation.exe
+C:\Users\sizov\Documents\NumericalAnalysis\IterationMethod\OverRelaxation\bin\Debug\OverRelaxation.pdb
+C:\Users\sizov\Documents\NumericalAnalysis\IterationMethod\OverRelaxation\obj\Debug\IterationMethods.csprojAssemblyReference.cache
+C:\Users\sizov\Documents\NumericalAnalysis\IterationMethod\OverRelaxation\obj\Debug\OverRelaxation.Form1.resources
+C:\Users\sizov\Documents\NumericalAnalysis\IterationMethod\OverRelaxation\obj\Debug\OverRelaxation.Properties.Resources.resources
+C:\Users\sizov\Documents\NumericalAnalysis\IterationMethod\OverRelaxation\obj\Debug\IterationMethods.csproj.GenerateResource.cache
+C:\Users\sizov\Documents\NumericalAnalysis\IterationMethod\OverRelaxation\obj\Debug\IterationMethods.csproj.CoreCompileInputs.cache
+C:\Users\sizov\Documents\NumericalAnalysis\IterationMethod\OverRelaxation\obj\Debug\OverRelaxation.exe
+C:\Users\sizov\Documents\NumericalAnalysis\IterationMethod\OverRelaxation\obj\Debug\OverRelaxation.pdb

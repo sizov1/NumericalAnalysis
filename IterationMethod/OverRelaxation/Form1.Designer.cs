@@ -53,6 +53,8 @@
             this.userValue = new System.Windows.Forms.RadioButton();
             this.optimalValue = new System.Windows.Forms.RadioButton();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.labelr22 = new System.Windows.Forms.Label();
+            this.labelr2 = new System.Windows.Forms.Label();
             this.labelrmax2 = new System.Windows.Forms.Label();
             this.labelrmax = new System.Windows.Forms.Label();
             this.labelXYTotalEps = new System.Windows.Forms.Label();
@@ -71,8 +73,6 @@
             this.методСопряженныхГрадиентовToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.тестоваяЗадачаНаНепрямоугольнойОбластиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.labelr2 = new System.Windows.Forms.Label();
-            this.labelr22 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -281,7 +281,7 @@
             this.dataGridView1.Margin = new System.Windows.Forms.Padding(4);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersWidth = 51;
-            this.dataGridView1.Size = new System.Drawing.Size(1394, 620);
+            this.dataGridView1.Size = new System.Drawing.Size(1615, 714);
             this.dataGridView1.TabIndex = 14;
             // 
             // groupBox3
@@ -352,7 +352,7 @@
             this.groupBox4.Controls.Add(this.labelNIter);
             this.groupBox4.Controls.Add(this.labelIJTotalEps);
             this.groupBox4.Controls.Add(this.labelTotalEps);
-            this.groupBox4.Location = new System.Drawing.Point(320, 687);
+            this.groupBox4.Location = new System.Drawing.Point(320, 775);
             this.groupBox4.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Padding = new System.Windows.Forms.Padding(4);
@@ -361,10 +361,28 @@
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Результаты работы метода";
             // 
+            // labelr22
+            // 
+            this.labelr22.AutoSize = true;
+            this.labelr22.Location = new System.Drawing.Point(370, 155);
+            this.labelr22.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelr22.Name = "labelr22";
+            this.labelr22.Size = new System.Drawing.Size(0, 17);
+            this.labelr22.TabIndex = 8;
+            // 
+            // labelr2
+            // 
+            this.labelr2.AutoSize = true;
+            this.labelr2.Location = new System.Drawing.Point(8, 155);
+            this.labelr2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelr2.Name = "labelr2";
+            this.labelr2.Size = new System.Drawing.Size(0, 17);
+            this.labelr2.TabIndex = 7;
+            // 
             // labelrmax2
             // 
             this.labelrmax2.AutoSize = true;
-            this.labelrmax2.Location = new System.Drawing.Point(370, 97);
+            this.labelrmax2.Location = new System.Drawing.Point(426, 97);
             this.labelrmax2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelrmax2.Name = "labelrmax2";
             this.labelrmax2.Size = new System.Drawing.Size(0, 17);
@@ -438,7 +456,7 @@
             this.тестоваяЗадачаНаНепрямоугольнойОбластиToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1741, 28);
+            this.menuStrip1.Size = new System.Drawing.Size(1948, 28);
             this.menuStrip1.TabIndex = 23;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -522,30 +540,12 @@
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
             // 
-            // labelr2
-            // 
-            this.labelr2.AutoSize = true;
-            this.labelr2.Location = new System.Drawing.Point(8, 155);
-            this.labelr2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.labelr2.Name = "labelr2";
-            this.labelr2.Size = new System.Drawing.Size(0, 17);
-            this.labelr2.TabIndex = 7;
-            // 
-            // labelr22
-            // 
-            this.labelr22.AutoSize = true;
-            this.labelr22.Location = new System.Drawing.Point(370, 155);
-            this.labelr22.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.labelr22.Name = "labelr22";
-            this.labelr22.Size = new System.Drawing.Size(0, 17);
-            this.labelr22.TabIndex = 8;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.ClientSize = new System.Drawing.Size(1741, 928);
+            this.ClientSize = new System.Drawing.Size(1948, 1025);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.dataGridView1);

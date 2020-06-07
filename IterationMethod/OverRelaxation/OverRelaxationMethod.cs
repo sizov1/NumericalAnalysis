@@ -137,23 +137,28 @@ namespace OverRelaxation
             double t2 = -((double)m / (d - c)) * ((double)m / (d - c));
             double a2 = -2 * (h2 + t2);
             countSteps = 0;
-            bool stop = nmax > 0;
+            bool stop = !(nmax > 0);
             while (!stop)
             {
                 epsMax = 0.0;
-                for (int i = 1, j = 1; i < n && j < m; GetNextInnerXYIndex(ref i, ref j))
+                for(int i = 1; i < n; i++)
                 {
-                    double oldValue = v[i, j];
-                    double newValue = -w * (h2 * (v[i + 1, j] + v[i - 1, j]) +
-                                              t2 * (v[i, j + 1] + v[i, j - 1]));
-                    newValue += (1 - w) * a2 * v[i, j] + w * f(a + i * h, c + j * t);
-                    newValue /= a2;
-                    epsCurr = Math.Abs(oldValue - newValue);
-                    if (epsCurr > epsMax) epsMax = epsCurr;
-                    v[i, j] = newValue;
+                    for(int j = 1; j < m; j++)
+                    {
+                        double oldValue = v[i, j];
+                        double newValue = -w * (h2 * (v[i + 1, j] + v[i - 1, j]) +
+                                                  t2 * (v[i, j + 1] + v[i, j - 1]));
+                        newValue += (1 - w) * a2 * v[i, j] + w * f(a + i * h, c + j * t);
+                        newValue /= a2;
+                        epsCurr = Math.Abs(oldValue - newValue);
+                        if (epsCurr > epsMax) epsMax = epsCurr;
+                        v[i, j] = newValue;
+                    }
                 }
                 countSteps++;
                 if (epsMax < eps || countSteps >= nmax) stop = true;
+                Console.WriteLine(epsMax.ToString());
+                Console.WriteLine(countSteps.ToString());
             }
         }
 
@@ -426,7 +431,7 @@ namespace OverRelaxation
             {
                 return 0.0;
             }
-            return Math.Exp((a + i * h) * (c + j * t));
+            return Math.Exp((a + i * h) * (a + i * h) - (c + j * t) * (c + j * t));
         }
 
         protected override abstract void InitBorderValue();
